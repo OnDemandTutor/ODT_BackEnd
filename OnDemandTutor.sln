@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODT_API", "ODT_API\ODT_API.csproj", "{CEF41184-5FF9-4125-AEB0-0F273A2464C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODT_Repository", "ODT_Repository\ODT_Repository.csproj", "{245A4044-1010-4F47-B877-23E54847FFEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CEF41184-5FF9-4125-AEB0-0F273A2464C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEF41184-5FF9-4125-AEB0-0F273A2464C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEF41184-5FF9-4125-AEB0-0F273A2464C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEF41184-5FF9-4125-AEB0-0F273A2464C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{245A4044-1010-4F47-B877-23E54847FFEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{245A4044-1010-4F47-B877-23E54847FFEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{245A4044-1010-4F47-B877-23E54847FFEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{245A4044-1010-4F47-B877-23E54847FFEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B917CF10-6023-4F31-AFCA-F057F3984202}
+	EndGlobalSection
+EndGlobal
