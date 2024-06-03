@@ -363,14 +363,14 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-FuStudy_API/obj/
-FuStudy_API/bin/
-FuStudy_Model/obj/
-FuStudy_Model/bin/
-FuStudy_Repository/obj/
-FuStudy_Repository/bin/
-FuStudy_Service/obj/
-FuStudy_Service/bin/
+ODT_API/obj/
+ODT_API/bin/
+ODT_Model/obj/
+ODT_Model/bin/
+ODT_Repository/obj/
+ODT_Repository/bin/
+ODT_Service/obj/
+ODT_Service/bin/
 Tools/obj/
 Tools/bin/
 
@@ -380,3 +380,5 @@ Tools/bin/
 # store - generate code
 .store/
 
+# migrations - generate code
+./ODT_API/Migrations/
