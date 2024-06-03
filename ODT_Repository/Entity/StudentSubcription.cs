@@ -11,24 +11,28 @@ namespace ODT_Repository.Entity
     [Table("StudentSubcription")]
     public class StudentSubcription
     {
-        public long studentId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        public long subcriptionId { get; set; }
+        public long StudentId { get; set; }
 
-        [Required]
-        public int limitQuestion { get; set; }
+        public long SubcriptionId { get; set; }
 
-        [Required]
-        public int currentQuestion { get; set; }
+        public int CurrentMeeting { get; set; }
 
-        public DateTime startDate { get; set; }
+        public int CurrentQuestion { get; set; }
 
-        public DateTime endDate { get; set; }
+        public DateTime StartDate { get; set; }
 
-        [ForeignKey("studentId")]
-        public Student student { get; set; }
+        public DateTime EndDate { get; set; }
 
-        [ForeignKey("subcriptionId")]
-        public Subcription subcription { get; set; }
+        public bool Status { get; set; }
+
+        [ForeignKey("StudentId")]
+        public virtual Student Student { get; set; }
+
+        [ForeignKey("SubcriptionId")]
+        public virtual Subcription Subcription { get; set; }
     }
 }

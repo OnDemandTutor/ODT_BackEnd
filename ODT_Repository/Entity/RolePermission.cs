@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,15 +11,19 @@ namespace ODT_Repository.Entity
     [Table("RolePermission")]
     public class RolePermission
     {
-        public long roleId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        public long permissionId { get; set; }
+        public long RoleId { get; set; }
 
-        [ForeignKey("roleId")]
-        public Role role { get; set; }
+        public long PermissionId { get; set; }
 
-        [ForeignKey("permissionId")]
-        public Permission permission { get; set; }
+        [ForeignKey("RoleId")]
+        public virtual Role Role { get; set; }
+
+        [ForeignKey("PermissionId")]
+        public virtual Permission Permission { get; set; }
 
     }
 }

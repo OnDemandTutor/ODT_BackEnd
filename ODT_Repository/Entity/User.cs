@@ -12,37 +12,34 @@ namespace ODT_Repository.Entity
     public class User
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        public long roleId { get; set; }
+        public long RoleId { get; set; }
 
-        [Required]
-        public string userName { get; set; }
+        public string Username { get; set; }
 
-        [Required]
-        public string passWord { get; set; }
+        public string Password { get; set; }
 
-        [Required]
-        public string fullName { get; set; }
+        public string Fullname { get; set; }
 
-        [Required]
-        public string email { get; set; }
+        public string Email { get; set; }
 
-        [Required]
-        public string identityCard { get; set; }
+        public string IdentityCard { get; set; }
 
-        [Required]
-        public DateOnly dob { get; set; }
+        public string Gender { get; set; }
 
-        [Required]
-        public string phone { get; set; }
+        public string Avatar { get; set; }
 
-        public DateTime createDate { get; set; }
+        public DateTime Dob { get; set; }
 
-        [Required]
-        public bool status { get; set; }
+        public string Phone { get; set; }
 
-        [ForeignKey("roleId")]
-        public Role role { get; set; }
+        public DateTime CreateDate { get; set; }
+
+        public bool Status { get; set; }
+
+        [ForeignKey("RoleId")]
+        public virtual Role Role { get; set; }
     }
 }

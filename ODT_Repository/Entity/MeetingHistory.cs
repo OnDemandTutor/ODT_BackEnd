@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace ODT_Repository.Entity
 {
-    [Table("Question")]
-    public class Question
+    [Table("MeetingHistory")]
+    public class MeetingHistory
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,25 +17,25 @@ namespace ODT_Repository.Entity
 
         public long StudentId { get; set; }
 
-        public long CategoryId { get; set; }
+        public long MentorId { get; set; }
 
-        public string Content { get; set; }
+        public DateTime StartTime { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public TimeSpan Duration { get; set; }
 
-        public DateTime ModifiedDate { get; set; }
-        
-        public int TotalRating { get; set; }
+        public DateTime EndTime { get; set; }
 
-        public string Image { get; set; }
+        public double Cost { get; set; }
 
-        public bool Status { get; set; }
+        public int Rating { get; set; }
+
+        [Required]
+        public string Status { get; set; }
 
         [ForeignKey("StudentId")]
         public virtual Student Student { get; set; }
 
-        [ForeignKey("CategoryId")]
-        public virtual Category Category { get; set; }
-
+        [ForeignKey("MentorId")]
+        public virtual Mentor Mentor { get; set; }
     }
 }

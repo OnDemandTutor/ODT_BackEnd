@@ -12,27 +12,26 @@ namespace ODT_Repository.Entity
     public class QuestionComment
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        public long userId { get; set; }
+        public long UserId { get; set; }
 
-        public long questionId { get; set; }
+        public long QuestionId { get; set; }
 
-        [Required]
-        public string content { get; set; }
+        public string Content { get; set; }
 
-        public DateTime createDate { get; set; }
+        public DateTime CreateDate { get; set; }
 
-        public DateTime modifiedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
 
-        [Required]
-        public bool status { get; set; }
+        public bool Status { get; set; }
 
-        [ForeignKey("userId")]
-        public User user { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
 
-        [ForeignKey("questionId")]
-        public Question question { get; set; }
+        [ForeignKey("QuestionId")]
+        public virtual Question Question { get; set; }
 
     }
 }

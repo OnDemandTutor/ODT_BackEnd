@@ -12,9 +12,9 @@ namespace ODT_Repository.Entity
     public class Category
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        [Required]
-        public string categoryName { get; set; }
+        public string CategoryName { get; set; }
     }
 }

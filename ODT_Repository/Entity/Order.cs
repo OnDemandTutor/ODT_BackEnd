@@ -12,30 +12,22 @@ namespace ODT_Repository.Entity
     public class Order
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        public long subcriptionId { get; set; }
+        public long TransactionId { get; set; }
 
-        public long studentId { get; set; }
+        public string PaymentCode { get; set; }
 
-        [Required]
-        public string paymentCode { get; set; }
+        public string Description { get; set; }
 
-        [Required]
-        public string description { get; set; }
+        public DateTime CreateDate { get; set; }
 
-        public DateTime createDate { get; set; }
+        public double Money { get; set; }
 
-        [Required]
-        public double money { get; set; }
+        public bool Status { get; set; }
 
-        [Required]
-        public bool status { get; set; }
-
-        [ForeignKey("subcriptionId")]
-        public Subcription subcription { get; set; }
-
-        [ForeignKey("studentId")]
-        public Student student { get; set; }
+        [ForeignKey("TransactionId")]
+        public virtual Transaction Transaction { get; set; }
     }
 }

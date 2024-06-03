@@ -5,7 +5,13 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODT_API", "ODT_API\ODT_API.csproj", "{CEF41184-5FF9-4125-AEB0-0F273A2464C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODT_Repository", "ODT_Repository\ODT_Repository.csproj", "{245A4044-1010-4F47-B877-23E54847FFEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODT_Repository", "ODT_Repository\ODT_Repository.csproj", "{245A4044-1010-4F47-B877-23E54847FFEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODT_Service", "ODT_Service\ODT_Service.csproj", "{0C6D06A9-2180-4253-96DC-1F95997FD2FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODT_Model", "ODT_Model\ODT_Model.csproj", "{18296D1B-2A7A-419D-B13E-FC0210FBB2A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{C7815DE1-A907-4245-8BC0-D49DC35BC319}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{245A4044-1010-4F47-B877-23E54847FFEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{245A4044-1010-4F47-B877-23E54847FFEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{245A4044-1010-4F47-B877-23E54847FFEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C6D06A9-2180-4253-96DC-1F95997FD2FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C6D06A9-2180-4253-96DC-1F95997FD2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C6D06A9-2180-4253-96DC-1F95997FD2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C6D06A9-2180-4253-96DC-1F95997FD2FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18296D1B-2A7A-419D-B13E-FC0210FBB2A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18296D1B-2A7A-419D-B13E-FC0210FBB2A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18296D1B-2A7A-419D-B13E-FC0210FBB2A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18296D1B-2A7A-419D-B13E-FC0210FBB2A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7815DE1-A907-4245-8BC0-D49DC35BC319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7815DE1-A907-4245-8BC0-D49DC35BC319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7815DE1-A907-4245-8BC0-D49DC35BC319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7815DE1-A907-4245-8BC0-D49DC35BC319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

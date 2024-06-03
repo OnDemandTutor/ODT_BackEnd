@@ -12,23 +12,23 @@ namespace ODT_Repository.Entity
     public class Mentor
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        public long userId { get; set; }
+        public long UserId { get; set; }
+        
+        public string AcademicLevel { get; set; }
 
-        [Required]
-        public string academicLevel { get; set; }
+        public string WorkPlace { get; set; }
 
-        [Required]
-        public string workPlace { get; set; }
+        public string Status { get; set; }
 
-        [Required]
-        public string skill { get; set; }
+        public string Skill { get; set; }
 
-        [Required]
-        public BinaryReader video { get; set; }
+        public string Video { get; set; }
 
-        [ForeignKey("userId")]
-        public User user { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+        
     }
 }

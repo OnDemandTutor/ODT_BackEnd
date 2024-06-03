@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace ODT_Repository.Entity
 {
-    [Table("QuestionRating")]
-    public class QuestionRating
+    [Table("MessageReaction")]
+    public class MessageReaction
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,14 +17,16 @@ namespace ODT_Repository.Entity
 
         public long UserId { get; set; }
 
-        public long QuestionId { get; set; }
+        public long ConversationMessageId { get; set; }
 
-        public bool Status { get; set; }
+        public string ReactionType { get; set; }
+
+        public DateTime CreateAt { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
-        [ForeignKey("QuestionId")]
-        public virtual Question Question { get; set; }
+        [ForeignKey("ConversationMessageId")]
+        public virtual ConversationMessage ConversationMessage { get; set; }
     }
 }

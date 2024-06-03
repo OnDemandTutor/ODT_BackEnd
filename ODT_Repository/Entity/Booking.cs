@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace ODT_Repository.Entity
 {
-    [Table("QuestionRating")]
-    public class QuestionRating
+
+    [Table("Booking")]
+    public class Booking
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,14 +18,20 @@ namespace ODT_Repository.Entity
 
         public long UserId { get; set; }
 
-        public long QuestionId { get; set; }
+        public long MentorId { get; set; }
 
-        public bool Status { get; set; }
+        public DateTime StartTime { get; set; }
+
+        public TimeSpan Duration { get; set; }
+
+        public DateTime EndTime { get; set; }
+
+        public string Status { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
-        [ForeignKey("QuestionId")]
-        public virtual Question Question { get; set; }
+        [ForeignKey("MentorId")]
+        public virtual Mentor Mentor { get; set; }
     }
 }

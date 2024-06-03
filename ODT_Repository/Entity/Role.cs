@@ -12,9 +12,9 @@ namespace ODT_Repository.Entity
     public class Role
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        [Required]
-        public string roleName { get; set; }
+        public string RoleName { get; set; }
     }
 }

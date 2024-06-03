@@ -8,23 +8,20 @@ using System.Threading.Tasks;
 
 namespace ODT_Repository.Entity
 {
-    [Table("QuestionRating")]
-    public class QuestionRating
+    [Table("CommentImage")]
+    public class CommentImage
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public long UserId { get; set; }
+        public long BlogCommentId { get; set; }
 
-        public long QuestionId { get; set; }
+        public string Image { get; set; }
 
         public bool Status { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
-
-        [ForeignKey("QuestionId")]
-        public virtual Question Question { get; set; }
+        [ForeignKey("BlogCommentId")]
+        public virtual BlogComment BlogComment { get; set; }
     }
 }

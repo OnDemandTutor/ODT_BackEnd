@@ -8,18 +8,13 @@ using System.Threading.Tasks;
 
 namespace ODT_Repository.Entity
 {
-    [Table("Bill")]
-    public class Bill
+    [Table("Major")]
+    public class Major
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        public long orderId { get; set; }
-
-        [Required]
-        public bool status { get; set; }
-
-        [ForeignKey("orderId")]
-        public Order order { get; set; }
+        public string MajorName { get; set; }
     }
 }

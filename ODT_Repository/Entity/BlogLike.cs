@@ -12,22 +12,19 @@ namespace ODT_Repository.Entity
     public class BlogLike
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        public long userId { get; set; }
+        public long UserId { get; set; }
 
-        public long blogId { get; set; }
+        public long BlogId { get; set; }
 
-        [Required]
-        public int totalLike { get; set; }
+        public bool Status { get; set; }
 
-        [Required]
-        public bool status { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
 
-        [ForeignKey("userId")]
-        public User user { get; set; }
-
-        [ForeignKey("blogId")]
-        public Blog blog { get; set; }
+        [ForeignKey("BlogId")]
+        public virtual Blog Blog { get; set; }
     }
 }

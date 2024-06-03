@@ -8,23 +8,21 @@ using System.Threading.Tasks;
 
 namespace ODT_Repository.Entity
 {
-    [Table("QuestionRating")]
-    public class QuestionRating
+    [Table("MentorMajor")]
+    public class MentorMajor
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public long UserId { get; set; }
+        public long MentorId { get; set; }
 
-        public long QuestionId { get; set; }
+        public long MajorId { get; set; }
 
-        public bool Status { get; set; }
+        [ForeignKey("MentorId")]
+        public virtual Mentor Mentor { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
-
-        [ForeignKey("QuestionId")]
-        public virtual Question Question { get; set; }
+        [ForeignKey("MajorId")]
+        public virtual Major Major { get; set; }
     }
 }

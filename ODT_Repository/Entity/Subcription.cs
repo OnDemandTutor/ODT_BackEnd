@@ -12,15 +12,17 @@ namespace ODT_Repository.Entity
     public class Subcription
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        [Required]
-        public string subcriptionName { get; set; }
+        public string SubcriptionName { get; set; }
 
-        [Required]
-        public double subcriptionPrice { get; set; }
+        public double SubcriptionPrice { get; set; }
 
-        [Required]
-        public bool status { get; set; }
+        public int LimitQuestion { get; set; }
+
+        public int LimitMeeting { get; set; }
+
+        public bool Status { get; set; }
     }
 }

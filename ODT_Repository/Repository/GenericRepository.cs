@@ -1,73 +1,193 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ODT_Repository.Entity;
-using ODT_Repository.Repository.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using ODT_Repository.Entity;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using System.Reflection.Metadata.Ecma335;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ODT_Repository.Repository
 {
+
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        protected MyDbContext _context;
-        protected DbSet<TEntity> dbSet;
+        internal MyDbContext context;
+        internal DbSet<TEntity> dbSet;
 
         public GenericRepository(MyDbContext context)
         {
-            _context = context;
-            dbSet = _context.Set<TEntity>();
+            this.context = context;
+            this.dbSet = context.Set<TEntity>();
+        }
+        // Updated Get method with pagination
+        public virtual IEnumerable<TEntity> Get(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "",
+            int? pageIndex = null,
+            int? pageSize = null)
+        {
+            IQueryable<TEntity> query = dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            // Implementing pagination
+            if (pageIndex.HasValue && pageSize.HasValue)
+            {
+                // Ensure the pageIndex and pageSize are valid
+                int validPageIndex = pageIndex.Value > 0 ? pageIndex.Value - 1 : 0;
+                int validPageSize = pageSize.Value > 0 ? pageSize.Value : 10; // Assuming a default pageSize of 10 if an invalid value is passed
+
+                query = query.Skip(validPageIndex * validPageSize).Take(validPageSize);
+            }
+
+            return query.ToList();
         }
 
-        public Task<TEntity> Add(TEntity entity)
+        public virtual TEntity GetByID(object id)
         {
-            throw new NotImplementedException();
+            return dbSet.Find(id);
         }
 
-        public void AddRange(IEnumerable<TEntity> entities)
+        public virtual void Insert(TEntity entity)
         {
-            throw new NotImplementedException();
+            dbSet.Add(entity);
         }
 
-        public Task<bool> Delete(long id)
+        public virtual void Delete(object id)
         {
-            throw new NotImplementedException();
+            TEntity entityToDelete = dbSet.Find(id);
+            Delete(entityToDelete);
         }
 
-        public Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual void Delete(TEntity entityToDelete)
         {
-            throw new NotImplementedException();
+            if (context.Entry(entityToDelete).State == EntityState.Detached)
+            {
+                dbSet.Attach(entityToDelete);
+            }
+            dbSet.Remove(entityToDelete);
         }
 
-        public Task<IEnumerable<TEntity>> GetByFilterAsync(System.Linq.Expressions.Expression<Func<TEntity, bool>> filterExpression)
+        public virtual void Update(TEntity entityToUpdate)
         {
-            throw new NotImplementedException();
+            dbSet.Attach(entityToUpdate);
+            context.Entry(entityToUpdate).State = EntityState.Modified;
         }
 
-        public Task<TEntity> GetById(long id)
+        public async Task<IEnumerable<TEntity>> GetByFilterAsync(Expression<Func<TEntity, bool>> filterExpression)
         {
-            throw new NotImplementedException();
+            var query = context.Set<TEntity>().Where(filterExpression);
+            var queryableType = query.GetType().GetProperty("ElementType");
+            // use queryableType here
+            return await query.ToListAsync();
         }
 
-        public Task<TEntity> GetByIdAsync(long id)
+        public async Task<TEntity> AddAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            context.Set<TEntity>().Add(entity);
+            await context.SaveChangesAsync(); // Save changes asynchronously
+            return entity;
         }
 
-        public void Remove(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            context.Set<TEntity>().Update(entity);
+            await context.SaveChangesAsync(); // Save changes asynchronously
+            return entity;
         }
 
-        public void RemoveRange(IEnumerable<TEntity> entities)
+        public virtual async Task<TEntity> GetByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            return await dbSet.FindAsync(id);
         }
 
-        public Task<TEntity> Update(TEntity entity)
+        public async Task<IEnumerable<RolePermission>> GetRolePermissionsByRoleIdAsync(long roleId)
         {
-            throw new NotImplementedException();
+            if (typeof(TEntity) == typeof(RolePermission))
+            {
+                return await context.Set<RolePermission>()
+                    .Where(rp => rp.RoleId == roleId)
+                    .ToListAsync();
+            }
+
+            throw new InvalidOperationException("This method can only be used with RolePermission entities.");
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "",
+            int? pageIndex = null,
+            int? pageSize = null)
+        {
+            IQueryable<TEntity> query = dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                         (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            // Implementing pagination
+            if (pageIndex.HasValue && pageSize.HasValue)
+            {
+                // Ensure the pageIndex and pageSize are valid
+                int validPageIndex = pageIndex.Value > 0 ? pageIndex.Value - 1 : 0;
+                int validPageSize = pageSize.Value > 0 ? pageSize.Value : 10; // Assuming a default pageSize of 10 if an invalid value is passed
+
+                query = query.Skip(validPageIndex * validPageSize).Take(validPageSize);
+            }
+
+            return await query.ToListAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<TEntity> GetByIdWithInclude(long id, string includeProperties = "")
+        {
+            IQueryable<TEntity> query = dbSet;
+            foreach (var includeProperty in includeProperties.Split
+                         (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+            return await query.FirstOrDefaultAsync(entity => EF.Property<long>(entity, "Id") == id);
+
+        }
+        
+        public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await dbSet.AnyAsync(predicate);
         }
     }
 }

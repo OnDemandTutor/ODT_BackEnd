@@ -12,17 +12,16 @@ namespace ODT_Repository.Entity
     public class Wallet
     {
         [Key]
-        public long id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
 
-        public long userId { get; set; }
+        public long UserId { get; set; }
 
-        [Required]
-        public double balance { get; set; }
+        public double Balance { get; set; }
 
-        [Required]
-        public bool status { get; set; }
+        public bool Status { get; set; }
 
-        [ForeignKey("userId")]
-        public User user { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
     }
 }
