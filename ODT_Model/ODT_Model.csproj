@@ -13,13 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ODT_Repository\ODT_Repository.csproj" />
-    <ProjectReference Include="..\ODT_Service\ODT_Service.csproj" />
     <ProjectReference Include="..\Tools\Tools.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DTO\Request\" />
-    <Folder Include="DTO\Respone\" />
   </ItemGroup>
 
 </Project>
