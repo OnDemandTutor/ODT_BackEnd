@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
-using ODT_Repository.Entity;
 using Microsoft.Extensions.Configuration;
 using System.Runtime.Intrinsics.X86;
 using Microsoft.EntityFrameworkCore.Internal;
+using ODT_Repository.Entity;
 
 namespace ODT_Repository.Entity
 {
@@ -25,7 +25,6 @@ namespace ODT_Repository.Entity
         public DbSet<BlogComment> BlogsComments { get; set; }
         public DbSet<BlogLike> BlogsLikes { get; set; }
         public DbSet<CommentImage> CommentImages { get; set; }
-
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
@@ -48,7 +47,7 @@ namespace ODT_Repository.Entity
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
-
+        public DbSet<Token> Tokens { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -66,7 +65,10 @@ namespace ODT_Repository.Entity
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             base.OnModelCreating(modelBuilder);
+
+
             // -- Roles & Permissions --
             var roles = new List<Role>
             {
@@ -95,7 +97,7 @@ namespace ODT_Repository.Entity
                 new RolePermission { Id = 3, RoleId = roles[1].Id, PermissionId = permissions[2].Id } // Mentor - AnswerQuestions
                 // ... Add more RolePermission instances as needed
             );
-           
+
 
             // -- Users --
             var users = new List<User>
@@ -121,7 +123,7 @@ namespace ODT_Repository.Entity
 
             // -- Students & Mentors --
             var students = new List<Student> { new Student { Id = 1, UserId = users[0].Id } };
-            
+
 
             modelBuilder.Entity<Student>().HasData(students);
 
@@ -135,13 +137,13 @@ namespace ODT_Repository.Entity
             modelBuilder.Entity<Major>().HasData(majors);
             var mentors = new List<Mentor>
                 { new Mentor {Id = 1, UserId = users[2].Id, AcademicLevel = "Master's"
-                    , WorkPlace = "Tech Company", Status = "offline", Skill = "Ahihi", Video = "ahihi"} };
+                    , WorkPlace = "Tech Company", OnlineStatus = "Invisible", Skill = "Ahihi", Video = "ahihi", VerifyStatus = true} };
 
-            var mentorMajor = new MentorMajor {Id = 1, MentorId = mentors[0].Id, MajorId = majors[0].Id };
+            var mentorMajor = new MentorMajor { Id = 1, MentorId = mentors[0].Id, MajorId = majors[0].Id };
 
             modelBuilder.Entity<Mentor>().HasData(mentors);
             modelBuilder.Entity<MentorMajor>().HasData(mentorMajor);
-            
+
 
             // -- Categories --
             var categories = new List<Category>
@@ -165,7 +167,7 @@ namespace ODT_Repository.Entity
                     TotalRating = 1,
                     CreateDate = DateTime.Now,
                     Image = "ahihi"
-                    
+
                 }
             };
             modelBuilder.Entity<Question>().HasData(questions);
@@ -174,8 +176,8 @@ namespace ODT_Repository.Entity
             // -- Subscriptions --
             var subscriptions = new List<Subcription>
             {
-                new Subcription {Id = 1, SubcriptionName = "Basic", SubcriptionPrice = 9.99, Status = true },
-                new Subcription {Id = 2, SubcriptionName = "Premium", SubcriptionPrice = 19.99, Status = true }
+                new Subcription {Id = 1, SubcriptionName = "Basic",  SubcriptionPrice = 9.99, LimitQuestion = 20, LimitMeeting= 20,  Status = true },
+                new Subcription {Id = 2, SubcriptionName = "Premium", SubcriptionPrice = 9.99, LimitQuestion = 20, LimitMeeting= 20, Status = true }
             };
             modelBuilder.Entity<Subcription>().HasData(subscriptions);
 
@@ -186,7 +188,7 @@ namespace ODT_Repository.Entity
                 Id = 1,
                 StudentId = students[0].Id,
                 SubcriptionId = subscriptions[0].Id,
-                CurrentMeeting = 1,
+                CurrentMeeting = 0,
                 CurrentQuestion = 0,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddMonths(1),
@@ -214,8 +216,8 @@ namespace ODT_Repository.Entity
                     Description = "Subscription payment"}
             };
             modelBuilder.Entity<Transaction>().HasData(transactions);
-            
-            
+
+
             // -- Orders --
             modelBuilder.Entity<Order>().HasData(new Order
             {
@@ -228,7 +230,7 @@ namespace ODT_Repository.Entity
                 Status = true
             });
 
-            
+
             // -- Blogs --
             var blogs = new List<Blog>
             {
@@ -261,33 +263,37 @@ namespace ODT_Repository.Entity
                     Image = "Ahihi do ngoc",
                     BlogCommentId = blogComments[0].Id
                 }
-                    
-                
+
+
             };
             modelBuilder.Entity<CommentImage>().HasData(commentImages);
-            
+
 
             // -- QuestionComments & QuestionRatings --
             modelBuilder.Entity<QuestionComment>().HasData(new QuestionComment
-                {Id = 1, UserId = users[1].Id, QuestionId = questions[0].Id, Content = "Good question!", CreateDate = DateTime.Now });
+            { Id = 1, UserId = users[1].Id, QuestionId = questions[0].Id, Content = "Good question!", CreateDate = DateTime.Now });
             modelBuilder.Entity<QuestionRating>().HasData(new QuestionRating
-                {Id = 1, UserId = users[1].Id, QuestionId = questions[0].Id, Status = true });
+            { Id = 1, UserId = users[1].Id, QuestionId = questions[0].Id, Status = true });
 
 
             // -- Conversations & ConversationMessages --
             var conversation = new Conversation
-                {Id = 1, User1Id = users[0].Id, User2Id = users[1].Id, CreateAt = DateTime.Now, LastMessage = "Hello!" };
+            { Id = 1, User1Id = users[0].Id, User2Id = users[1].Id, CreateAt = DateTime.Now, LastMessage = "Hello!" };
 
             modelBuilder.Entity<Conversation>().HasData(conversation);
 
             var conversationMessage = new ConversationMessage
-                {Id = 1, ConversationId = conversation.Id, SenderId = users[0].Id, Content = "Hello!", CreateTime = DateTime.Now };
+            { Id = 1, ConversationId = conversation.Id, SenderId = users[0].Id, Content = "Hello!", CreateTime = DateTime.Now };
             modelBuilder.Entity<ConversationMessage>().HasData(conversationMessage);
 
             // -- MessageReactions --
             modelBuilder.Entity<MessageReaction>().HasData(new MessageReaction
             {
-                Id = 1, UserId = users[1].Id, ConversationMessageId = conversationMessage.Id, ReactionType = "like", CreateAt = DateTime.Now
+                Id = 1,
+                UserId = users[1].Id,
+                ConversationMessageId = conversationMessage.Id,
+                ReactionType = "like",
+                CreateAt = DateTime.Now
             });
         }
     }

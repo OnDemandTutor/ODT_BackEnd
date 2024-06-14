@@ -1,11 +1,15 @@
-﻿using AutoMapper;
+﻿
+
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ODT_Model.DTO.Mapper;
 using ODT_Repository.Entity;
 using ODT_Repository.Repository;
+using ODT_Service.Interface;
+using ODT_Service.Service;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -49,6 +53,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 
 
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 /*// Service add o day
 //builder.Services.AddScoped<IUserService, UserService>();
 
@@ -71,14 +76,14 @@ builder.Services.AddScoped<Tools.Firebase>();
 
 
 builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
+*/
 
 //Mapper
 var config = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile(new AutoMapperProfile());
 });
-builder.Services.AddSingleton<IMapper>(config.CreateMapper());*/
-
+builder.Services.AddSingleton<IMapper>(config.CreateMapper());
 
 // Add services to the container.
 var serverVersion = new MySqlServerVersion(new Version(8, 0, 23)); // Replace with your actual MySQL server version
