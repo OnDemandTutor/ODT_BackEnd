@@ -1,5 +1,5 @@
-﻿using FuStudy_Model.DTO.Request;
-using FuStudy_Model.DTO.Response;
+﻿using ODT_Model.DTO.Request;
+using ODT_Model.DTO.Response;
 using ODT_Repository.Entity;
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FuStudy_Model.DTO.Request
+namespace ODT_Model.DTO.Request
 {
     public class CreateSubcriptionRequest
     {

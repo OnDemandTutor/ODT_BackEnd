@@ -8,6 +8,9 @@ using ODT_Repository.Entity;
 using ODT_Repository.Repository;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using ODT_Model.Mapper;
+using ODT_Service.Interface;
+using ODT_Service.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,36 +51,35 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 
-
-/*// Service add o day
+// Service add o day
 //builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<IQuestionService, QuestionService>();
+//builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+//builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<ISubcriptionService, SubcriptionService>();
-builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
-builder.Services.AddScoped<IBlogService, BlogService>();
-builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
-builder.Services.AddScoped<IConversationService, ConversationService>();
+//builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
+//builder.Services.AddScoped<IBlogService, BlogService>();
+//builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
+//builder.Services.AddScoped<IConversationService, ConversationService>();
 
-builder.Services.AddScoped<IConversationMessageService, ConversationMessageService>();
-builder.Services.AddScoped<IMessageReactionService, MessageReactionService>();
-builder.Services.AddScoped<IAttachmentService, AttachmentService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
-builder.Services.AddScoped<IPermissionService, PermissionService>();
+//builder.Services.AddScoped<IConversationMessageService, ConversationMessageService>();
+//builder.Services.AddScoped<IMessageReactionService, MessageReactionService>();
+//builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+//builder.Services.AddScoped<IUserService, UserService>();
+//builder.Services.AddScoped<IRoleService, RoleService>();
+//builder.Services.AddScoped<IPermissionService, PermissionService>();
 
-builder.Services.AddScoped<Tools.Firebase>();
+//builder.Services.AddScoped<Tools.Firebase>();
 
 
-builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
+//builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
 
 //Mapper
 var config = new MapperConfiguration(cfg =>
 {
     cfg.AddProfile(new AutoMapperProfile());
 });
-builder.Services.AddSingleton<IMapper>(config.CreateMapper());*/
+builder.Services.AddSingleton<IMapper>(config.CreateMapper());
 
 
 // Add services to the container.
