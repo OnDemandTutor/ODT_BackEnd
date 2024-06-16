@@ -1,6 +1,7 @@
 ﻿
 
 using AutoMapper;
+using FuStudy_Service.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -54,6 +55,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IUserService, UserService>();
 /*// Service add o day
 //builder.Services.AddScoped<IUserService, UserService>();
 
