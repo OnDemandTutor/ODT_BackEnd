@@ -16,14 +16,18 @@ namespace ODT_Model.Mapper
         {
             
 
-            #region Subcription Request
+            #region Subcription
             CreateMap<CreateSubcriptionRequest, Subcription>().ReverseMap();
             CreateMap<UpdateSubcriptionRequest, Subcription>().ReverseMap();
+            CreateMap<SubcriptionResponse, Subcription>().ReverseMap();
             #endregion
 
 
-            #region Subcription Resonse
-            CreateMap<SubcriptionResponse, Subcription>().ReverseMap();
+
+            #region StudentSubcription 
+            CreateMap<CreateStudentSubcriptionRequest, StudentSubcription>().ReverseMap();
+            CreateMap<UpdateStudentSubcriptionRequest, StudentSubcription>().ReverseMap();
+            CreateMap<StudentSubcriptionResponse, StudentSubcription>().ReverseMap();
             #endregion
 
         }

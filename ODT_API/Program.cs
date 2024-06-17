@@ -11,6 +11,7 @@ using System.Text;
 using ODT_Model.Mapper;
 using ODT_Service.Interface;
 using ODT_Service.Service;
+using ODT_Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,7 +58,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 //builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 //builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<ISubcriptionService, SubcriptionService>();
-//builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
+builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
 //builder.Services.AddScoped<IBlogService, BlogService>();
 //builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
 //builder.Services.AddScoped<IConversationService, ConversationService>();
