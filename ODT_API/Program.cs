@@ -1,7 +1,6 @@
 ﻿
 
 using AutoMapper;
-using FuStudy_Service.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

@@ -15,7 +15,7 @@ using ODT_Repository.Repository;
 using ODT_Service.Interface;
 using Tools;
 
-namespace FuStudy_Service.Service;
+namespace ODT_Service.Service;
 
 public class UserService : IUserService
 {
@@ -49,7 +49,7 @@ public class UserService : IUserService
         user.Password = EncryptPassword.Encrypt(createAccountRequest.Password);
         user.Status = true;
         user.CreateDate = DateTime.Now;
-        user.Avatar = null;
+        //user.Avatar = null;
         await _unitOfWork.UserRepository.AddAsync(user);
         return user;
     }
