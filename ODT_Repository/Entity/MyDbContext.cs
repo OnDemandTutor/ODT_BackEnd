@@ -67,7 +67,7 @@ namespace ODT_Repository.Entity
         {
 
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<Mentor>().Property(mentor => mentor.Video).IsRequired(false);
 
             // -- Roles & Permissions --
             var roles = new List<Role>
@@ -135,10 +135,10 @@ namespace ODT_Repository.Entity
                 new Major {Id = 2, MajorName = "Mathematics" }
             };
             modelBuilder.Entity<Major>().HasData(majors);
+
             var mentors = new List<Mentor>
                 { new Mentor {Id = 1, UserId = users[2].Id, AcademicLevel = "Master's"
                     , WorkPlace = "Tech Company", OnlineStatus = "Invisible", Skill = "Ahihi", Video = "ahihi", VerifyStatus = true} };
-
             var mentorMajor = new MentorMajor { Id = 1, MentorId = mentors[0].Id, MajorId = majors[0].Id };
 
             modelBuilder.Entity<Mentor>().HasData(mentors);

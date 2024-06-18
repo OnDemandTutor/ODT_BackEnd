@@ -52,32 +52,18 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 
-
+// Service add o day
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<IUserService, UserService>();
-/*// Service add o day
-//builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddScoped<IQuestionService, QuestionService>();
-builder.Services.AddScoped<ISubcriptionService, SubcriptionService>();
-builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
-builder.Services.AddScoped<IBlogService, BlogService>();
-builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
-builder.Services.AddScoped<IConversationService, ConversationService>();
-
-builder.Services.AddScoped<IConversationMessageService, ConversationMessageService>();
-builder.Services.AddScoped<IMessageReactionService, MessageReactionService>();
-builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
+builder.Services.AddScoped<IMentorService, MentorService>();
+builder.Services.AddScoped<IMajorService, MajorService>();
+builder.Services.AddScoped<IMentorService, MentorService>();
+builder.Services.AddScoped<IMentorMajorService, MentorMajorService>();
 
 builder.Services.AddScoped<Tools.Firebase>();
-
-
-builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
-*/
 
 //Mapper
 var config = new MapperConfiguration(cfg =>
@@ -127,14 +113,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 
 //Build CORS
-/*builder.Services.AddCors(p => p.AddPolicy("MyCors", build =>
+builder.Services.AddCors(opts =>
 {
-    // Dòng ở dưới là đường cứng
-    //build.WithOrigins("https:localhost:3000", "https:localhost:7022");
-
-    //Dòng dưới là nhận hết
-    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
-}));*/
+    opts.AddPolicy("corspolicy", build =>
+    {
+        build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -145,7 +130,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseAuthentication();
 app.UseHttpsRedirection();
-//app.UseCors("MyCors");
+app.UseCors("corspolicy");
 app.UseAuthorization();
 
 app.MapControllers();

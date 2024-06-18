@@ -10,7 +10,7 @@ using ODT_Repository.Entity;
 using ODT_Service.Interface;
 using Tools;
 
-namespace FuStudy_API.Controllers.Admin
+namespace ODT_API.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]

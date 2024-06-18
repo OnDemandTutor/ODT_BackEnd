@@ -25,6 +25,50 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<CreateAccountDTORequest, User>().ReverseMap();
             CreateMap<UpdateAccountDTORequest, User>().ReverseMap();
             #endregion*/
+
+
+            #region RolePermission
+            CreateMap<RolePermissionRequest, RolePermission>().ReverseMap();
+            CreateMap<RolePermission, RolePermissionResponse>().ReverseMap();
+            #endregion
+
+            #region Role
+            CreateMap<RoleRequest, Role>().ReverseMap();
+            CreateMap<Role, RoleResponse>().ReverseMap();
+            #endregion
+
+            #region Permission
+            CreateMap<PermissionRequest, Permission>().ReverseMap();
+            CreateMap<Permission, PermissionResponse>().ReverseMap();
+            #endregion
+
+            #region RolePermission
+            CreateMap<RolePermissionRequest, RolePermission>().ReverseMap();
+            CreateMap<RolePermission, RolePermissionResponse>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
+            .ForMember(dest => dest.Permission, opt => opt.MapFrom(src => src.Permission));
+            #endregion
+
+            #region Major
+            CreateMap<MajorRequest, Major>().ReverseMap();
+            CreateMap<Major, MajorResponse>().ReverseMap();
+            #endregion
+
+            #region Mentor
+            CreateMap<MentorRequest, Mentor>().ReverseMap();
+            CreateMap<Mentor, MentorResponse>().ReverseMap();
+            #endregion
+
+            #region MentorOnlineStatus
+            CreateMap<UpdateMentorOnlineStatusResquest, Mentor>().ReverseMap();
+            CreateMap<Mentor, UpdateMentorOnlineStatusResponse>().ReverseMap();
+            #endregion
+
+            #region MentorMajor
+            CreateMap<MentorMajorRequest, MentorMajor>().ReverseMap();
+            CreateMap<MentorMajor, MentorMajorResponse>().ReverseMap();
+            #endregion
         }
     }
 }
