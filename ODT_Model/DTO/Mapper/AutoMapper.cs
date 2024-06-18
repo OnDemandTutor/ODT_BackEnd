@@ -26,6 +26,8 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<UpdateAccountDTORequest, User>().ReverseMap();
             #endregion*/
 
+            CreateMap<TransactionRequest, Transaction>().ReverseMap();
+            CreateMap<Transaction, TransactionResponse>().ReverseMap();
 
             #region RolePermission
             CreateMap<RolePermissionRequest, RolePermission>().ReverseMap();
