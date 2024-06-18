@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -13,8 +11,6 @@ using ODT_Service.Service;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using ODT_Model.Mapper;
-using ODT_Service.Interface;
-using ODT_Service.Service;
 using ODT_Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
