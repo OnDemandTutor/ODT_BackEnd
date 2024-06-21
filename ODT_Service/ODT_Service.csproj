@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.6.0" />
+    <PackageReference Include="MimeKit" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ODT_Model\ODT_Model.csproj" />
     <ProjectReference Include="..\ODT_Repository\ODT_Repository.csproj" />
     <ProjectReference Include="..\Tools\Tools.csproj" />

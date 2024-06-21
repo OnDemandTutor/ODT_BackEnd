@@ -21,12 +21,14 @@ public class AuthenticationService: IAuthenticationService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IConfiguration _configuration;
-        
-    public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
+    private readonly IUserService _userService;
+
+    public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, IUserService userService)
     {
         _unitOfWork = unitOfWork; 
         _mapper = mapper;
         _configuration = configuration;
+        _userService = userService;
     }
     public async Task<CreateAccountDTOResponse> Register(CreateAccountDTORequest createAccountDTORequest)
     {
@@ -127,7 +129,83 @@ public class AuthenticationService: IAuthenticationService
     }
 
 
+    public async Task<RegisterTutorResponse> RegisterTutor(RegisterTutorRequest registerTutorRequest)
+    {
+        var mentor = _mapper.Map<Mentor>(registerTutorRequest);
+        mentor.UserId = long.Parse(_userService.GetUserID());
+        mentor.VerifyStatus = true;
+        await _unitOfWork.MentorRepository.AddAsync(mentor);
+        RegisterTutorResponse registerTutorResponse = _mapper.Map<RegisterTutorResponse>(mentor);
+        return registerTutorResponse;
+    }
+
+    public async Task<Token> SaveToken(Token token)
+    {
+        var existingToken = await _unitOfWork.TokenRepository.GetUserToken(token.UserId);
+
+        if (existingToken != null)
+        {
+            // Mark existing token as expired
+            existingToken.IsExpired = true;
+            existingToken.Revoked = true;
+            await _unitOfWork.TokenRepository.UpdateAsync(existingToken);
+        }
+        token.Time = DateTime.Now;
+        token.Revoked = false;
+        token.IsExpired = false;
+        var tokenAdd = await _unitOfWork.TokenRepository.AddAsync(token);
+        return tokenAdd;
+    }
+
+    public async Task<ResponseDTO> ResetPassAsync(UserResetPassDTO userReset)
+    {
+        var user = await _unitOfWork.UserRepository.GetByEmailAsync(userReset.Email);
+        if (user == null)
+        {
+            return new ResponseDTO()
+            {
+                Success = false,
+                Message = "User not found"
+            };
+        }
+
+        var userToken = await _unitOfWork.TokenRepository.GetUserToken(user.Id);
+        if (userToken == null || userToken.IsExpired || userToken.Revoked)
+        {
+            return new ResponseDTO()
+            {
+                Success = false,
+                Message = "Invalid or expired token"
+            };
+        }
+
+        if (!userReset.Token.Equals(userToken.TokenValue))
+        {
+            return new ResponseDTO()
+            {
+                Success = false,
+                Message = "Token not found"
+            };
+        }
+
+        string encryptedPassword = EncryptPassword.Encrypt(userReset.NewPassword);
+        user.Password = encryptedPassword;
+        userToken.IsExpired = true;
+        userToken.Revoked = true;
 
 
+
+        await _unitOfWork.UserRepository.UpdateAsync(user);
+        await _unitOfWork.TokenRepository.UpdateAsync(userToken);
+
+
+        return new ResponseDTO()
+        {
+            Success = true,
+            Message = "Password reset successfully"
+        };
+
+
+    }
 
 }

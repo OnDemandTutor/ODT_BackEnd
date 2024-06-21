@@ -10,8 +10,9 @@ using ODT_Service.Interface;
 using ODT_Service.Service;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-using ODT_Model.Mapper;
 using ODT_Service.Interfaces;
+using FuStudy_Service;
+using ODT_Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +65,8 @@ builder.Services.AddScoped<IMentorService, MentorService>();
 builder.Services.AddScoped<IMentorMajorService, MentorMajorService>();
 builder.Services.AddScoped<ISubcriptionService, SubcriptionService>();
 builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
-
+builder.Services.Configure<Email>(builder.Configuration.GetSection("EmailConfiguration"));
+builder.Services.AddScoped<IEmailConfig, EmailConfig>();
 builder.Services.AddScoped<Tools.Firebase>();
 
 

@@ -1,5 +1,6 @@
 ﻿using ODT_Model.DTO.Request;
 using ODT_Model.DTO.Response;
+using ODT_Repository.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,4 +13,7 @@ public interface IAuthenticationService
 {
     Task<CreateAccountDTOResponse> Register(CreateAccountDTORequest createAccountDTORequest);
     Task<(string, LoginDTOResponse)> Login(LoginDTORequest loginDtoRequest);
+    Task<RegisterTutorResponse> RegisterTutor(RegisterTutorRequest registerTutorRequest);
+    Task<Token> SaveToken(Token token);
+    Task<ResponseDTO> ResetPassAsync(UserResetPassDTO userReset);
 }
