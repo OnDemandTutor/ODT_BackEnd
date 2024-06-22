@@ -67,6 +67,9 @@ builder.Services.AddScoped<ISubcriptionService, SubcriptionService>();
 builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
 builder.Services.Configure<Email>(builder.Configuration.GetSection("EmailConfiguration"));
 builder.Services.AddScoped<IEmailConfig, EmailConfig>();
+builder.Services.AddScoped<IBlogService, BlogService>();
+
+
 builder.Services.AddScoped<Tools.Firebase>();
 
 

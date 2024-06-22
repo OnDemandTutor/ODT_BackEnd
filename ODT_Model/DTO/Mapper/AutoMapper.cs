@@ -84,6 +84,14 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<UpdateStudentSubcriptionRequest, StudentSubcription>().ReverseMap();
             CreateMap<StudentSubcriptionResponse, StudentSubcription>().ReverseMap();
             #endregion
+
+            #region Blog
+            CreateMap<BlogRequest, Blog>();
+            CreateMap<Blog, BlogResponse>()
+                .ForMember(dst => dst.Fullname, src => src.MapFrom(x => x.User.Fullname))
+                .ForMember(dst => dst.Avatar, src => src.MapFrom(x => x.User.Avatar))
+                .ReverseMap();
+            #endregion
         }
     }
 }
