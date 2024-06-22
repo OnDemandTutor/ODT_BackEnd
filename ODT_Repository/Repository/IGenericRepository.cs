@@ -28,7 +28,9 @@ namespace ODT_Repository.Repository
         Task<IEnumerable<TEntity>> GetByFilterAsync(Expression<Func<TEntity, bool>> filterExpression);
         Task<TEntity> AddAsync(TEntity entity);
         Task<TEntity> GetByIdAsync(long id);
+        Task<User> GetByEmailAsync(string email);
         Task<IEnumerable<RolePermission>> GetRolePermissionsByRoleIdAsync(long roleId);
+        Task<Token> GetUserToken(long id);
         Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,

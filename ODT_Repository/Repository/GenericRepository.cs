@@ -130,6 +130,16 @@ namespace ODT_Repository.Repository
             throw new InvalidOperationException("This method can only be used with RolePermission entities.");
         }
 
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await context.Set<User>().SingleOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<Token> GetUserToken(long userId)
+        {
+            return await context.Set<Token>().Where(t => t.UserId == userId && !t.IsExpired && !t.Revoked).FirstOrDefaultAsync();
+        }
+
         public virtual async Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,8 +10,9 @@ using ODT_Service.Interface;
 using ODT_Service.Service;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-
 using ODT_Service.Interfaces;
+using FuStudy_Service;
+using ODT_Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +66,11 @@ builder.Services.AddScoped<IMentorMajorService, MentorMajorService>();
 builder.Services.AddScoped<ISubcriptionService, SubcriptionService>();
 builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.Configure<Email>(builder.Configuration.GetSection("EmailConfiguration"));
+builder.Services.AddScoped<IEmailConfig, EmailConfig>();
+builder.Services.AddScoped<IBlogService, BlogService>();
+
+
 builder.Services.AddScoped<Tools.Firebase>();
 
 
