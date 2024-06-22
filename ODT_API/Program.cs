@@ -66,6 +66,7 @@ builder.Services.AddScoped<IMentorMajorService, MentorMajorService>();
 builder.Services.AddScoped<ISubcriptionService, SubcriptionService>();
 builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IWalletService, WalletService>();
 builder.Services.Configure<Email>(builder.Configuration.GetSection("EmailConfiguration"));
 builder.Services.AddScoped<IEmailConfig, EmailConfig>();
 builder.Services.AddScoped<IBlogService, BlogService>();
