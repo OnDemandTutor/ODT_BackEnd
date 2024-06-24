@@ -70,6 +70,7 @@ builder.Services.AddScoped<IWalletService, WalletService>();
 builder.Services.Configure<Email>(builder.Configuration.GetSection("EmailConfiguration"));
 builder.Services.AddScoped<IEmailConfig, EmailConfig>();
 builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
 
 
 builder.Services.AddScoped<Tools.Firebase>();

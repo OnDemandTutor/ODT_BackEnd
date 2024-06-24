@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FuStudy_Model.DTO.Request;
+using FuStudy_Model.DTO.Response;
 using ODT_Model.DTO.Request;
 using ODT_Model.DTO.Response;
 using ODT_Repository.Entity;
@@ -99,6 +101,16 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<Blog, BlogResponse>()
                 .ForMember(dst => dst.Fullname, src => src.MapFrom(x => x.User.Fullname))
                 .ForMember(dst => dst.Avatar, src => src.MapFrom(x => x.User.Avatar))
+                .ReverseMap();
+            #endregion
+
+            #region Blog comment
+            CreateMap<BlogCommentRequest, BlogComment>()
+                .ReverseMap();
+
+            CreateMap<BlogComment, BlogCommentResponse>()
+                .ForMember(dest => dest.Avatar, src => src.MapFrom(x => x.User.Avatar))
+                .ForMember(dest => dest.Fullname, src => src.MapFrom(x => x.User.Fullname))
                 .ReverseMap();
             #endregion
         }
