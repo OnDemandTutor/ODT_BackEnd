@@ -110,7 +110,14 @@ namespace ODT_Model.DTO.Mapper
 
             CreateMap<BlogComment, BlogCommentResponse>()
                 .ForMember(dest => dest.Avatar, src => src.MapFrom(x => x.User.Avatar))
-                .ForMember(dest => dest.Fullname, src => src.MapFrom(x => x.User.Fullname))
+                .ForMember(dest => dest.Fullname, src => src.MapFrom(x => x.User.Fullname));
+            #endregion
+
+            #region Blog Like
+            CreateMap<BlogLikeRequest, BlogLike>().ReverseMap();
+            CreateMap<BlogLike, BlogCommentResponse>().ReverseMap();
+            #endregion
+
             #region Question Response
             CreateMap<Question, QuestionResponse>()
                 .ForMember(question => question.CategoryName,

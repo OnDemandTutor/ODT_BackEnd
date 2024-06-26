@@ -74,7 +74,7 @@ builder.Services.Configure<Email>(builder.Configuration.GetSection("EmailConfigu
 builder.Services.AddScoped<IEmailConfig, EmailConfig>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
-
+builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
 
 builder.Services.AddScoped<Tools.Firebase>();
 
