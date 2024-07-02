@@ -131,6 +131,19 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<QuestionRating, QuestionRatingResponse>()
                 .ReverseMap();
             #endregion
+
+            CreateMap<ConversationRequest, Conversation>().ForMember(dest => dest.Duration, opt => opt.Ignore());
+
+            CreateMap<Conversation, ConversationResponse>();
+
+            CreateMap<ConversationMessageRequest, ConversationMessage>();
+            CreateMap<ConversationMessage, ConversationMessageResponse>().ReverseMap();
+
+            CreateMap<MessageReactionRequest, MessageReaction>();
+
+            CreateMap<MessageReaction, MessageReactionResponse>().ReverseMap();
+
+            CreateMap<Attachment, AttachmentResponse>();
         }
     }
 }

@@ -13,10 +13,12 @@ using System.Text;
 using ODT_Service.Interfaces;
 using FuStudy_Service;
 using ODT_Repository;
+using Quartz;
+using Tools.Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure();
 
 /*builder.Services.AddTransient<UpdateConversationIsCloseJob>();
 
@@ -75,6 +77,12 @@ builder.Services.AddScoped<IEmailConfig, EmailConfig>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
 builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
+
+builder.Services.AddScoped<IConversationService, ConversationService>();
+builder.Services.AddScoped<IConversationMessageService, ConversationMessageService>();
+builder.Services.AddScoped<IMessageReactionService, MessageReactionService>();
+builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+
 
 builder.Services.AddScoped<Tools.Firebase>();
 
