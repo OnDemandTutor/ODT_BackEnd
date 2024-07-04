@@ -199,5 +199,9 @@ namespace ODT_Repository.Repository
         {
             return await dbSet.AnyAsync(predicate);
         }
+        public async Task<Order> GetOrderByPaymentAsync(long transactionId)
+        {
+            return await context.Set<Order>().FirstOrDefaultAsync(o => o.PaymentCode == transactionId.ToString());
+        }
     }
 }
