@@ -84,6 +84,11 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<MentorMajor, MentorMajorResponse>().ReverseMap();
             #endregion
 
+            #region Booking 
+            CreateMap<CreateBookingRequest, Booking>().ReverseMap();
+            CreateMap<BookingResponse, Booking>().ReverseMap();
+            #endregion
+
             #region Subcription
             CreateMap<CreateSubcriptionRequest, Subcription>().ReverseMap();
             CreateMap<UpdateSubcriptionRequest, Subcription>().ReverseMap();

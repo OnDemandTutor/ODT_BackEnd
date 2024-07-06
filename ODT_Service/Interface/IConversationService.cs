@@ -1,5 +1,6 @@
 ﻿using ODT_Model.DTO.Request;
 using ODT_Model.DTO.Response;
+using ODT_Repository.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace ODT_Service.Interface
     public interface IConversationService
     {
         Task<ConversationResponse> CreateConversation(ConversationRequest request);
+        Conversation CreateConversationWithStudent(long userId, long mentorId);
         /*Task<ConversationResponse> UpdateConversationAsync(ConversationRequest request);*/
         Task<List<ConversationResponse>> GetConversation();
     }
