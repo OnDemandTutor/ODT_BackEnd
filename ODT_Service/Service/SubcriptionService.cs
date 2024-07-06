@@ -7,6 +7,7 @@ using ODT_Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Tools;
@@ -24,11 +25,27 @@ namespace ODT_Service.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Subcription>> GetAllSubcriptions()
+        public async Task<IEnumerable<SubcriptionResponse>> GetAllSubcriptions(QueryObject queryObject)
         {
+            Expression<Func<Subcription, bool>> filter = null;
+            if (!string.IsNullOrWhiteSpace(queryObject.Search))
+            {
+                filter = p => p.Status == true && p.SubcriptionName.Contains(queryObject.Search);
+            }
+
             var subcriptions = _unitOfWork.SubcriptionRepository.Get(
-                filter: p => p.Status == true);
-            return subcriptions;
+                filter: filter,
+                pageIndex: queryObject.PageIndex,
+                pageSize: queryObject.PageSize);
+
+            if (!subcriptions.Any())
+            {
+                throw new CustomException.DataNotFoundException("No Subcription in Database");
+            }
+
+            var subcriptionResponses = _mapper.Map<IEnumerable<SubcriptionResponse>>(subcriptions);
+
+            return subcriptionResponses;
         }
 
         public async Task<Subcription> GetSubCriptionById(long id)

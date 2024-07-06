@@ -83,6 +83,10 @@ builder.Services.AddScoped<IConversationMessageService, ConversationMessageServi
 builder.Services.AddScoped<IMessageReactionService, MessageReactionService>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+//builder.Services.AddScoped<IBlogService, BlogService>();
+//builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
+//builder.Services.AddScoped<IConversationService, ConversationService>();
 
 builder.Services.AddScoped<Tools.Firebase>();
 
