@@ -137,6 +137,11 @@ namespace ODT_Model.DTO.Mapper
                 .ReverseMap();
             #endregion
 
+            #region Order
+            CreateMap<OrderRequest, Order>().ReverseMap();
+            CreateMap<Order, OrderResponse>().ReverseMap();
+            #endregion
+
             CreateMap<ConversationRequest, Conversation>().ForMember(dest => dest.Duration, opt => opt.Ignore());
 
             CreateMap<Conversation, ConversationResponse>();

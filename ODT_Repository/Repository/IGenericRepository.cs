@@ -38,7 +38,7 @@ namespace ODT_Repository.Repository
             int? pageIndex = null,
             int? pageSize = null);
         Task SaveChangesAsync();
-
+        Task<Order> GetOrderByPaymentAsync(long transactionId);
         Task<TEntity> GetByIdWithInclude(long id, string includeProperties = "");
 
         Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);
