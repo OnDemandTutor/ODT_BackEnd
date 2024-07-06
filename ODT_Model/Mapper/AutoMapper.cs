@@ -23,6 +23,9 @@ namespace ODT_Model.Mapper
             #endregion
 
 
+            #region Student
+            CreateMap<StudentResponse, Student>().ReverseMap();
+            #endregion
 
             #region StudentSubcription 
             CreateMap<CreateStudentSubcriptionRequest, StudentSubcription>().ReverseMap();

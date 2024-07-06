@@ -15,6 +15,7 @@ namespace ODT_Service.Interfaces
         Task<StudentSubcriptionResponse> DeleteStudentSubcription(long id, UpdateStudentSubcriptionRequest updateStudentSubcriptionRequest);
         Task<IEnumerable<StudentSubcriptionResponse>> GetAllStudentSubcription(QueryObject queryObject);
         Task<StudentSubcriptionResponse> GetStudentSubcriptionByID(long id);
+        Task<IEnumerable<StudentSubcriptionResponse>> GetStudentSubcriptionByUserID(long userId);
         Task<StudentSubcriptionResponse> UpdateStudentSubcription(long id, UpdateStudentSubcriptionRequest updateStudentSubcriptionRequest);
     }
 }

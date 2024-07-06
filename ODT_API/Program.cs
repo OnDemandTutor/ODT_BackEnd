@@ -59,6 +59,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 //builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<ISubcriptionService, SubcriptionService>();
 builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 //builder.Services.AddScoped<IBlogService, BlogService>();
 //builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
 //builder.Services.AddScoped<IConversationService, ConversationService>();
