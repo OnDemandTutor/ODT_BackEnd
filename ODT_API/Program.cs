@@ -10,7 +10,6 @@ using ODT_Service.Interface;
 using ODT_Service.Service;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-using ODT_Model.Mapper;
 using ODT_Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,6 +63,7 @@ builder.Services.AddScoped<IMentorService, MentorService>();
 builder.Services.AddScoped<IMentorMajorService, MentorMajorService>();
 builder.Services.AddScoped<ISubcriptionService, SubcriptionService>();
 builder.Services.AddScoped<IStudentSubcriptionService, StudentSubcriptionService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 builder.Services.AddScoped<Tools.Firebase>();
 
