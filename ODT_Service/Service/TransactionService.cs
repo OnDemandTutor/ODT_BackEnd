@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using ODT_Model.DTO.Request;
 using ODT_Model.DTO.Response;
 using ODT_Repository.Entity;
@@ -52,6 +53,17 @@ namespace ODT_Service.Service
         {
             var transaction = _unitOfWork.TransactionRepository.GetByID(id);
             return _mapper.Map<TransactionResponse>(transaction);
+        }
+
+        public async Task<IEnumerable<TransactionResponse>> GetAllTransactionByWalletIdAsync(long walletId)
+        {
+            var transactions = _unitOfWork.TransactionRepository.Get(x => x.WalletId == walletId);
+            if (transactions.IsNullOrEmpty())
+            {
+                throw new CustomException.DataNotFoundException("The transaction list is empty!");
+            }
+
+            return _mapper.Map<IEnumerable<TransactionResponse>>(transactions);
         }
 
         public async Task<TransactionResponse> CreateTransactionAsync(TransactionRequest transactionRequest)
