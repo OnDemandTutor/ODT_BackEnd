@@ -78,12 +78,15 @@ builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
 builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-
 builder.Services.AddScoped<IConversationService, ConversationService>();
 builder.Services.AddScoped<IConversationMessageService, ConversationMessageService>();
 builder.Services.AddScoped<IMessageReactionService, MessageReactionService>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
-
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+//builder.Services.AddScoped<IBlogService, BlogService>();
+//builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
+//builder.Services.AddScoped<IConversationService, ConversationService>();
 
 builder.Services.AddScoped<Tools.Firebase>();
 

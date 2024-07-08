@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using ODT_Model.DTO.Request;
 using ODT_Model.DTO.Response;
+using ODT_Model.Enum;
 using ODT_Repository.Entity;
 using ODT_Repository.Repository;
 using ODT_Service.Interface;
+using Microsoft.AspNetCore.Http;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -134,6 +136,39 @@ namespace ODT_Service.Service
             var conversationResponse = _mapper.Map<ConversationResponse>(conversation);
 
             return conversationResponse;
+        }
+
+        public Conversation CreateConversationWithStudent(long userId, long mentorId)
+        {
+            var conversation = new Conversation();
+            conversation.User1Id = userId;
+            conversation.User2Id = mentorId;
+            conversation.LastMessage = "";
+
+            var userId2 = _unitOfWork.UserRepository.GetByID(conversation.User2Id);
+
+            if (userId2 == null || userId2.RoleId != 4)
+            {
+                conversation.EndTime = DateTime.MaxValue;
+            }
+
+            var durationBooking = _unitOfWork.BookingRepository.Get(
+                    d => d.UserId == userId && 
+                    d.MentorId == conversation.User2Id &&
+                    d.Status == BookingStatus.Accepted.ToString()).FirstOrDefault();
+
+            if (durationBooking != null)
+            {
+                conversation.CreateAt = durationBooking.StartTime;
+                conversation.Duration = durationBooking.Duration;
+                conversation.EndTime = durationBooking.EndTime;
+                conversation.IsClose = true;
+            }
+
+            _unitOfWork.ConversationRepository.Insert(conversation);
+            _unitOfWork.Save();
+
+            return conversation;
         }
 
         public async Task<List<ConversationResponse>> GetConversation()

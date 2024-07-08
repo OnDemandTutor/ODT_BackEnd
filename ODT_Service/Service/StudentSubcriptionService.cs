@@ -56,6 +56,58 @@ namespace ODT_Service.Service
             return await Task.FromResult(studentsubcriptionRS);
         }
 
+        public async Task<IEnumerable<StudentSubcriptionResponse>> GetStudentSubcriptionByUserID(long userId)
+        {
+            var studentID = _unitOfWork.StudentRepository.Get(
+                filter: s => s.User.Id == userId).FirstOrDefault();
+            if (studentID == null)
+            {
+                throw new CustomException.DataNotFoundException("This UserId doesn't exist");
+            }
+
+            var studentsubcription = _unitOfWork.StudentSubcriptionRepository.Get(
+            filter: p => p.Student.UserId == userId && p.Status == true,
+            includeProperties: "Student.User,Subcription",
+            orderBy: q => q.OrderBy(p => p.Id));
+
+            if (studentsubcription == null)
+            {
+                throw new CustomException.DataNotFoundException("Student Subscription for this user not found.");
+            }
+
+            var studentsubcriptionResponse = _mapper.Map<IEnumerable<StudentSubcriptionResponse>>(studentsubcription);
+            return studentsubcriptionResponse;
+
+            //var studentID = _unitOfWork.StudentRepository.Get(
+            //    filter:s => s.User.Id == userId).FirstOrDefault();
+            //if (studentID == null)
+            //{
+            //    throw new CustomException.DataNotFoundException("This UserId doesn't exist");
+            //}
+
+            //var studentSubcription = _unitOfWork.StudentSubcriptionRepository.Get(
+            //    filter: ss => ss.StudentId == studentID.Id && ss.Status == true,
+            //    includeProperties: "Subcription");
+
+            //var response = studentSubcription.Select(ss => new StudentSubcriptionResponse
+            //{
+            //    Id = ss.Id,
+            //    StudentId = ss.StudentId,
+            //    SubcriptionId = ss.SubcriptionId,
+            //    CurrentMeeting = ss.CurrentMeeting,
+            //    CurrentQuestion = ss.CurrentQuestion,
+            //    StartDate = ss.StartDate,
+            //    EndDate = ss.EndDate,
+            //    Status = ss.Status,
+            //    Student = ss.Student,
+            //    SubcriptionName = ss.Subcription.SubcriptionName,
+            //    SubcriptionPrice = ss.Subcription.SubcriptionPrice
+            //});
+
+            //return response;
+
+        }
+
         public async Task<StudentSubcriptionResponse> CreateStudentSubcription(CreateStudentSubcriptionRequest studentSubcriptionRequest)
         {
             var studentsub = _mapper.Map<StudentSubcription>(studentSubcriptionRequest);

@@ -4,6 +4,7 @@ using ODT_Model.DTO.Request;
 using ODT_Model.DTO.Response;
 using ODT_Service.Interface;
 using System.Net;
+using Tools;
 
 namespace ODT_API.Controllers.Subcription
 {
@@ -19,11 +20,11 @@ namespace ODT_API.Controllers.Subcription
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetAllSubcriptions()
+        public async Task<IActionResult> GetAllSubcriptions([FromQuery] QueryObject queryObject)
         {
             try
             {
-                var subcriptions = await _subcriptionService.GetAllSubcriptions();
+                var subcriptions = await _subcriptionService.GetAllSubcriptions(queryObject);
                 return CustomResult("Get Subcription Success", subcriptions, HttpStatusCode.OK);
             }
             catch (Exception ex)

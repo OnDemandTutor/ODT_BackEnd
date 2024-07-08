@@ -3,10 +3,11 @@ using CoreApiResponse;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Tools;
-using ODT_Service.Interfaces;
-using ODT_Model.DTO.Response;
 using ODT_Model.DTO.Request;
+using ODT_Model.DTO.Response;
+using ODT_Service.Interfaces;
 
 namespace ODT_API.Controllers.Subcription
 {
@@ -49,7 +50,23 @@ namespace ODT_API.Controllers.Subcription
             }
         }
 
+        [HttpGet("findStudentSubcription/{userId}")]
+        public async Task<IActionResult> GetStudentSubcriptionByUserID(long userId)
+        {
+            try
+            {
+                var studentsubcription = await _studentSubcriptionService.GetStudentSubcriptionByUserID(userId);
+                return CustomResult("ID has Found", studentsubcription, HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
+
         [HttpPost("CreateStudentSubcription")]
+        [Authorize]
         public async Task<IActionResult> CreateStudentSubcription([FromBody] CreateStudentSubcriptionRequest studentSubcriptionRequest)
         {
             try
@@ -64,11 +81,11 @@ namespace ODT_API.Controllers.Subcription
         }
 
         [HttpPatch("UpdateStudentSubcription/{id}")]
-        public async Task<IActionResult> UpdateStudentSubcription(long id,[FromBody] UpdateStudentSubcriptionRequest updateStudentSubcriptionRequest)
+        public async Task<IActionResult> UpdateStudentSubcription(long id, [FromBody] UpdateStudentSubcriptionRequest updateStudentSubcriptionRequest)
         {
             try
             {
-                StudentSubcriptionResponse studentSubcriptionResonse = await _studentSubcriptionService.UpdateStudentSubcription(id ,updateStudentSubcriptionRequest);
+                StudentSubcriptionResponse studentSubcriptionResonse = await _studentSubcriptionService.UpdateStudentSubcription(id, updateStudentSubcriptionRequest);
                 return CustomResult("Updated Successfully", studentSubcriptionResonse, HttpStatusCode.OK);
             }
             catch (Exception ex)
