@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ODT_Model.DTO.Response;
 
 namespace ODT_Model.DTO.Mapper
 {
@@ -99,6 +100,11 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<CreateStudentSubcriptionRequest, StudentSubcription>().ReverseMap();
             CreateMap<UpdateStudentSubcriptionRequest, StudentSubcription>().ReverseMap();
             CreateMap<StudentSubcriptionResponse, StudentSubcription>().ReverseMap();
+            #endregion
+
+            #region MeetingHistory
+
+            CreateMap<MeetingHistory, MeetingHistoryResponse>().ReverseMap();
             #endregion
 
             #region Blog

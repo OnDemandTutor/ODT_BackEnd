@@ -84,6 +84,7 @@ builder.Services.AddScoped<IMessageReactionService, MessageReactionService>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IMeetingHistory, MeetingHistoryService>();
 //builder.Services.AddScoped<IBlogService, BlogService>();
 //builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
 //builder.Services.AddScoped<IConversationService, ConversationService>();
