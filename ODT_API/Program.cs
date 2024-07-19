@@ -11,7 +11,7 @@ using ODT_Service.Service;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using ODT_Service.Interfaces;
-using FuStudy_Service;
+using ODT_Service;
 using ODT_Repository;
 using Quartz;
 using Tools.Quartz;

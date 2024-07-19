@@ -6,7 +6,7 @@ using ODT_Repository;
 using ODT_Service.Interface;
 
 
-namespace FuStudy_Service
+namespace ODT_Service
 {
     public class EmailConfig : IEmailConfig
     {

@@ -6,7 +6,7 @@ using ODT_Model.DTO.Request;
 using ODT_Service.Interface;
 using Tools;
 
-namespace ODT_API.Controllers.User;
+namespace ODT_API.Controllers.Users;
 
 [Authorize]
 public class UserController : BaseController
