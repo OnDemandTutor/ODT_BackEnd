@@ -11,7 +11,8 @@ namespace ODT_Service.Interface;
 
 public interface IAuthenticationService
 {
-    Task<CreateAccountDTOResponse> Register(CreateAccountDTORequest createAccountDTORequest);
+    //Task<CreateAccountDTOResponse> Register(CreateAccountDTORequest createAccountDTORequest);
+    Task<CreateAccountDTOResponse> Register(RegisterRequest registerRequest);
     Task<(string, LoginDTOResponse)> Login(LoginDTORequest loginDtoRequest);
     Task<RegisterTutorResponse> RegisterTutor(RegisterTutorRequest registerTutorRequest);
     Task<Token> SaveToken(Token token);

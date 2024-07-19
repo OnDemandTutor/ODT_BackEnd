@@ -35,7 +35,7 @@ namespace ODT_API.Controllers.Authentication
             _emailConfig = emailConfig;
             _userService = userService;
         }
-        [HttpPost("Register")]
+        /*[HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] CreateAccountDTORequest createAccountDTORequest)
         {
              try
@@ -50,8 +50,25 @@ namespace ODT_API.Controllers.Authentication
                   return CustomResult(e.Message, HttpStatusCode.InternalServerError);
              }
             
+        }*/
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
+        {
+            try
+            {
+                CreateAccountDTOResponse user = await _authenticationService.Register(registerRequest);
+
+                return CustomResult("Register Success", user, HttpStatusCode.OK);
+
+            }
+            catch (Exception e)
+            {
+                return CustomResult(e.Message, HttpStatusCode.InternalServerError);
+            }
+
         }
-        
+
         [HttpPost("Login")]
         public async Task<IActionResult> LoginUser([FromBody] LoginDTORequest loginDtoRequest)
         {

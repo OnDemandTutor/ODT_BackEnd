@@ -25,7 +25,7 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<Mentor, RegisterTutorRequest>().ReverseMap();
             CreateMap<Mentor, RegisterTutorResponse>().ReverseMap();
             CreateMap<Token, TokenRequest>().ReverseMap();
-
+            CreateMap<RegisterRequest, User>().ReverseMap();
             /*#region Account(Create, Update) RQ, Response
             CreateMap<CreateAccountDTORequest, User>().ReverseMap();
             CreateMap<UpdateAccountDTORequest, User>().ReverseMap();

@@ -30,7 +30,7 @@ public class AuthenticationService: IAuthenticationService
         _configuration = configuration;
         _userService = userService;
     }
-    public async Task<CreateAccountDTOResponse> Register(CreateAccountDTORequest createAccountDTORequest)
+    /*public async Task<CreateAccountDTOResponse> Register(CreateAccountDTORequest createAccountDTORequest)
     {
         IEnumerable<User> checkEmail =
             await _unitOfWork.UserRepository.GetByFilterAsync(x => x.Email.Equals(createAccountDTORequest.Email));
@@ -46,8 +46,8 @@ public class AuthenticationService: IAuthenticationService
             throw new InvalidDataException("Username already exists.");
         }
         var user = _mapper.Map<User>(createAccountDTORequest);
-        /*			user.permission_id = (await _userPermissionRepository.GetByFilterAsync(r => r.role.Equals("Customer"))).First().id;
-        */
+        *//*			user.permission_id = (await _userPermissionRepository.GetByFilterAsync(r => r.role.Equals("Customer"))).First().id;
+        *//*
 
         user.Password = EncryptPassword.Encrypt(createAccountDTORequest.Password);
         user.Status = true;
@@ -72,6 +72,100 @@ public class AuthenticationService: IAuthenticationService
             UserId = user.Id,
             Balance = 0,
             Status = false
+        };
+        await _unitOfWork.WalletRepository.AddAsync(wallet);
+        if (roleName.RoleName == RoleName.Student.ToString())
+        {
+            var student = new Student();
+            student.UserId = user.Id;
+            await _unitOfWork.StudentRepository.AddAsync(student);
+
+        }
+
+        if (roleName.RoleName == RoleName.Mentor.ToString())
+        {
+            var mentor = new Mentor
+            {
+                UserId = user.Id,
+                AcademicLevel = "",
+                WorkPlace = "",
+                VerifyStatus = false,
+                OnlineStatus = OnlineStatus.Invisible.ToString(),
+                Skill = "",
+                Video = ""
+            };
+
+
+            await _unitOfWork.MentorRepository.AddAsync(mentor);
+
+        }
+        CreateAccountDTOResponse createAccountDTOResponse = _mapper.Map<CreateAccountDTOResponse>(user);
+        return createAccountDTOResponse;
+
+    }*/
+    public async Task<CreateAccountDTOResponse> Register(RegisterRequest registerRequest)
+    {
+        IEnumerable<User> checkEmail =
+            await _unitOfWork.UserRepository.GetByFilterAsync(x => x.Email.Equals(registerRequest.Email));
+        IEnumerable<User> checkUsername =
+            await _unitOfWork.UserRepository.GetByFilterAsync(x => x.Username.Equals(registerRequest.Username));
+        if (checkEmail.Count() != 0)
+        {
+            throw new InvalidDataException($"Email is exist");
+        }
+
+        if (checkUsername.Count() != 0)
+        {
+            throw new InvalidDataException($"Username is exist");
+        }
+
+        if (registerRequest.Password != registerRequest.ConfirmPassword)
+        {
+            throw new CustomException.InvalidDataException("Confirm Password not match!");
+        }
+
+        var userGender = "Order";
+        switch (registerRequest.Gender.Trim().ToLower())
+        {
+            case "male": userGender = "Male"; break;
+            case "female": userGender = "Female"; break;
+        }
+
+        var user = _mapper.Map<User>(registerRequest);
+        /*			user.permission_id = (await _userPermissionRepository.GetByFilterAsync(r => r.role.Equals("Customer"))).First().id;
+        */
+        user.Gender = userGender;
+        //default avatar
+        user.Avatar =
+            "https://firebasestorage.googleapis.com/v0/b/artworks-sharing-platform.appspot.com/o/images%2Favt.jpg?alt=media&token=13ab9b47-eff9-4d33-88b0-8e7d32e0de90";
+        user.Password = EncryptPassword.Encrypt(registerRequest.Password);
+        user.Status = true;
+        var role = _unitOfWork.RoleRepository.Get(role => role.RoleName.Trim().ToLower() == registerRequest.RoleName.Trim().ToLower())
+            .FirstOrDefault();
+        if (role == null)
+        {
+            throw new CustomException.InvalidDataException("500", "This role name does not exist");
+        }
+
+        if (!(role.RoleName == "Student" || role.RoleName == "Mentor"))
+        {
+            throw new CustomException.InvalidDataException("500", "Invalid role!");
+        }
+        user.RoleId = role.Id;
+        user.CreateDate = DateTime.Now.Date;
+
+
+
+
+
+
+        await _unitOfWork.UserRepository.AddAsync(user);
+        var roleName = await _unitOfWork.RoleRepository.GetByIdAsync(user.RoleId);
+        var wallet = new Wallet
+        {
+            UserId = user.Id,
+            Balance = 0,
+            Status = true
         };
         await _unitOfWork.WalletRepository.AddAsync(wallet);
         if (roleName.RoleName == RoleName.Student.ToString())
