@@ -24,6 +24,23 @@ namespace ODT_Service.Service
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<IEnumerable<MentorResponse>> GetAllMentor(QueryObject queryObject)
+        {
+            var mentors = _unitOfWork.MentorRepository.Get(includeProperties: "User",
+                pageIndex: queryObject.PageIndex,
+                pageSize: queryObject.PageSize)
+                .ToList();
+
+            if (!mentors.Any())
+            {
+                throw new CustomException.DataNotFoundException("No Mentor in Database");
+            }
+
+            var mentorResponses = _mapper.Map<IEnumerable<MentorResponse>>(mentors);
+
+            return mentorResponses;
+        }
+
         public async Task<IEnumerable<MentorResponse>> GetAllMentorVerify(QueryObject queryObject)
         {
             var mentors = _unitOfWork.MentorRepository.Get(p => p.VerifyStatus == true, includeProperties: "User",
@@ -151,6 +168,29 @@ namespace ODT_Service.Service
             _mapper.Map(mentorRequest, mentor);
             _unitOfWork.MentorRepository.Update(mentor);
             return _mapper.Map<MentorResponse>(mentor);
+        }
+
+        public async Task<MentorResponse> VerifyMentor(long id)
+        {
+            var existingMentor = _unitOfWork.MentorRepository.GetByID(id);
+
+            if (existingMentor == null)
+            {
+                throw new CustomException.DataNotFoundException($"Mentor with ID {id} not found.");
+            }
+
+            if (existingMentor.VerifyStatus)
+            {
+                throw new CustomException.InvalidDataException($"Mentor with ID {id} was Active.");
+            }
+
+            existingMentor.VerifyStatus = true;
+
+            _unitOfWork.MentorRepository.Update(existingMentor);
+            _unitOfWork.Save();
+
+            var mentorResponse = _mapper.Map<MentorResponse>(existingMentor);
+            return mentorResponse;
         }
     }
 }

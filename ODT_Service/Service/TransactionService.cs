@@ -110,5 +110,74 @@ namespace ODT_Service.Service
             _unitOfWork.Save();
             return true;
         }
+
+        public async Task<TotalRevenueResponse> GetTotalRevenue()
+        {
+            var transactions = _unitOfWork.TransactionRepository.Get(t => t.Type == "Deposit");
+            double total = 0;
+            foreach (var transaction in transactions)
+            {
+                total += transaction.Ammount;
+            }
+
+            TotalRevenueResponse totalRevenueResponse = new TotalRevenueResponse
+            {
+                TotalAmount = total
+            };
+
+            return totalRevenueResponse;
+        }
+
+        public async Task<IEnumerable<TransactionResponse>> GetTransactionsByDateRange(DateTime startDate, DateTime endDate)
+        {
+            var transactions = _unitOfWork.TransactionRepository.Get(
+                t => t.Type == "Deposit" && t.CreateTime >= startDate && t.CreateTime <= endDate);
+            if (transactions.IsNullOrEmpty())
+            {
+                throw new CustomException.DataNotFoundException("Transactions is empty!");
+            }
+
+            var transactionResponses = _mapper.Map<IEnumerable<TransactionResponse>>(transactions);
+            foreach (var transactionResponse in transactionResponses)
+            {
+                var wallet = _unitOfWork.WalletRepository.Get(w => w.Id == transactionResponse.WalletId).FirstOrDefault();
+                if (wallet == null)
+                {
+                    throw new CustomException.DataNotFoundException("Wallet not found!");
+                }
+                var user = _unitOfWork.UserRepository.Get(u => u.Id == wallet.UserId).FirstOrDefault();
+                if (user == null)
+                {
+                    throw new CustomException.DataNotFoundException("User not found!");
+                }
+                transactionResponse.UserId = user.Id;
+                transactionResponse.Username = user.Username;
+                transactionResponse.Email = user.Email;
+                transactionResponse.Fullname = user.Fullname;
+
+            }
+
+            return transactionResponses;
+        }
+
+        public async Task<IEnumerable<TransactionResponse>> GetAllTransactionByWalletIdAsync(long walletId, QueryObject queryObject)
+        {
+            Expression<Func<Transaction, bool>> filter = x => x.WalletId == walletId;
+            if (!string.IsNullOrWhiteSpace(queryObject.Search))
+            {
+                filter = transaction => transaction.Type.Contains(queryObject.Search) && transaction.WalletId == walletId;
+            }
+
+            var transactions = _unitOfWork.TransactionRepository.Get(
+                filter: filter,
+                pageIndex: queryObject.PageIndex,
+                pageSize: queryObject.PageSize);
+            if (transactions.IsNullOrEmpty())
+            {
+                throw new CustomException.DataNotFoundException("The transaction list is empty!");
+            }
+
+            return _mapper.Map<IEnumerable<TransactionResponse>>(transactions);
+        }
     }
 }

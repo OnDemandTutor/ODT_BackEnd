@@ -52,6 +52,11 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<Role, RoleResponse>().ReverseMap();
             #endregion
 
+            #region Category
+            CreateMap<CategoryRequest, Category>().ReverseMap();
+            CreateMap<Category, CategoryResponse>().ReverseMap();
+            #endregion
+
             #region Permission
             CreateMap<PermissionRequest, Permission>().ReverseMap();
             CreateMap<Permission, PermissionResponse>().ReverseMap();

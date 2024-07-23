@@ -16,6 +16,7 @@ using ODT_Repository;
 using Quartz;
 using Tools.Quartz;
 using Net.payOS;
+using ODT_Repository.Service;
 
 IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 PayOS payOS = new PayOS(configuration["Environment:PAYOS_CLIENT_ID"],
@@ -91,6 +92,7 @@ builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IMeetingHistory, MeetingHistoryService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 //builder.Services.AddScoped<IBlogService, BlogService>();
 //builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
 //builder.Services.AddScoped<IConversationService, ConversationService>();

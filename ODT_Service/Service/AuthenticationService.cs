@@ -217,6 +217,7 @@ public class AuthenticationService: IAuthenticationService
         }
 
         LoginDTOResponse loginDtoResponse = _mapper.Map<LoginDTOResponse>(user);
+        loginDtoResponse.RoleName = _unitOfWork.RoleRepository.GetByID(user.RoleId).RoleName;
         Authentication authentication = new(_configuration, _unitOfWork);
         string token = await authentication.GenerateJwtToken(user, 15);
         return (token, loginDtoResponse);

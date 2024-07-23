@@ -14,6 +14,12 @@ namespace ODT_Model.DTO.Response
         public double Ammount { get; set; }
         public DateTime CreateTime { get; set; }
         public string Description { get; set; }
+
+        // Thêm các thuộc tính liên quan đến User
+        public long UserId { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string? Fullname { get; set; }
     }
 }
 
