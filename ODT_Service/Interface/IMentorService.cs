@@ -16,6 +16,7 @@ namespace ODT_Service.Interface
         Task<IEnumerable<MentorResponse>> GetAllMentor(QueryObject queryObject);
         Task<IEnumerable<MentorResponse>> GetAllMentorVerify(QueryObject queryObject);
         Task<IEnumerable<MentorResponse>> GetAllMentorWaiting(QueryObject queryObject);
+        Task<List<MentorResponse>> GetMentorByUserId(long id);
         Task<List<MentorResponse>> GetMentorById(long id);
         Task<MentorResponse> UpdateMentor(long id, MentorRequest mentorRequest);
         Task<MentorResponse> UpdateMentorLoggingIn(MentorRequest mentorRequest);

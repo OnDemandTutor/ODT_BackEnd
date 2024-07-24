@@ -50,6 +50,20 @@ namespace ODT_Service.Service
             return mentorMajorResponses;
         }
 
+        public async Task<List<MentorMajorResponse>> GetAllMentorMajorByMentorId(long id)
+        {
+            var mms = _unitOfWork.MentorMajorRepository.Get(filter: p =>
+                                                        p.MentorId == id, includeProperties: "Mentor,Major");
+
+            if (mms == null)
+            {
+                throw new CustomException.DataNotFoundException($"MentorMajor not found with MentorId: {id}");
+            }
+
+            var mentorMajorResponses = _mapper.Map<List<MentorMajorResponse>>(mms);
+            return mentorMajorResponses;
+        }
+
         public async Task<List<MentorMajorResponse>> GetAllMentorByMajorId(long id)
         {
             var mms = _unitOfWork.MentorMajorRepository.Get(filter: p =>

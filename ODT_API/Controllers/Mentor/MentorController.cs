@@ -93,6 +93,25 @@ namespace ODT_API.Controllers.Mentor
             }
         }
 
+        [HttpGet("GetMentorByUserId/{id}")]
+        public async Task<IActionResult> GetMentorByUserId(long id)
+        {
+            try
+            {
+                var mentor = await _mentorService.GetMentorByUserId(id);
+
+                return CustomResult("Data Load Successfully", mentor);
+            }
+            catch (CustomException.DataNotFoundException ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.NotFound);
+            }
+            catch (Exception ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
         [HttpPatch("UpdateMentor/{id}")]
         public async Task<IActionResult> UpdateMentor(long id, [FromForm] MentorRequest mentorRequest)
         {

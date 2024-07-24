@@ -56,6 +56,25 @@ namespace ODT_API.Controllers.Major
             }
         }
 
+        [HttpGet("GetAllMentorMajorByMentorId/{id}")]
+        public async Task<IActionResult> GetAllMentorMajorByMentorId(long id)
+        {
+            try
+            {
+                var majors = await _mentorMajorService.GetAllMentorMajorByMentorId(id);
+
+                return CustomResult("Data Load Successfully", majors);
+            }
+            catch (CustomException.DataNotFoundException ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.NotFound);
+            }
+            catch (Exception ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
         [HttpGet("GetAllMentorByMajorId/{id}")]
         public async Task<IActionResult> GetAllMentorByMajorId(long id)
         {

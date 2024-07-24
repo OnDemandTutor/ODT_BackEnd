@@ -74,6 +74,19 @@ namespace ODT_Service.Service
             return mentorResponses;
         }
 
+        public async Task<List<MentorResponse>> GetMentorByUserId(long id)
+        {
+            var mentor = _unitOfWork.MentorRepository.Get(p => p.UserId == id, includeProperties: "User");
+
+            if (!mentor.Any())
+            {
+                throw new CustomException.DataNotFoundException($"Mentor not found with UserId: {id}");
+            }
+
+            var mentorResponse = _mapper.Map<List<MentorResponse>>(mentor);
+            return mentorResponse;
+        }
+
         public async Task<List<MentorResponse>> GetMentorById(long id)
         {
             var mentor = _unitOfWork.MentorRepository.Get(p => p.Id == id, includeProperties: "User");

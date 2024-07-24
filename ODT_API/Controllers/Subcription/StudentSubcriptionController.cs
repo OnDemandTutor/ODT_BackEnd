@@ -64,7 +64,6 @@ namespace ODT_API.Controllers.Subcription
             }
         }
 
-
         [HttpPost("CreateStudentSubcription")]
         [Authorize]
         public async Task<IActionResult> CreateStudentSubcription([FromBody] CreateStudentSubcriptionRequest studentSubcriptionRequest)
