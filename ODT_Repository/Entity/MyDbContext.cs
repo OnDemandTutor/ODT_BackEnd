@@ -105,17 +105,17 @@ namespace ODT_Repository.Entity
                 new User
                 {
                     Id = 1, RoleId = roles[2].Id, Username = "student1", Password = "hashedPassword1", Fullname = "John Doe",
-                    Email = "johndoe@example.com", Avatar = "ahihi", Gender = "male", IdentityCard = "ahihi", Status = true, Phone = "123123"
+                    Email = "johndoe@example.com", Avatar = "", Gender = "male", IdentityCard = "ahihi", Status = true, Phone = "123123"
                 },
                 new User
                 {
                     Id = 2, RoleId = roles[3].Id, Username = "mentor1", Password = "hashedPassword2", Fullname = "Jane Smith",
-                    Email = "janesmith@example.com", Avatar = "ahihi", Gender = "Gay", IdentityCard = "Ahihi", Status = true, Phone = "12312321"
+                    Email = "janesmith@example.com", Avatar = "", Gender = "Gay", IdentityCard = "Ahihi", Status = true, Phone = "12312321"
                 },
                 new User
                 {
                     Id = 3, RoleId = roles[0].Id, Username = "admin1", Password = "hashedPassword3", Fullname = "Alice Johnson",
-                    Email = "alicejohnson@example.com", Avatar = "ahihi", Gender = "Female", IdentityCard = "Ahihi", Status = true, Phone = "123123"
+                    Email = "alicejohnson@example.com", Avatar = "", Gender = "Female", IdentityCard = "Ahihi", Status = true, Phone = "123123"
                 }
             };
 
@@ -166,7 +166,7 @@ namespace ODT_Repository.Entity
                     Content = "How to sort an array in C#?",
                     TotalRating = 1,
                     CreateDate = DateTime.Now,
-                    Image = "ahihi"
+                    Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoVxEoMbD0PjtjJdU1S-A5jamXGaH-JgKvLw&s"
 
                 }
             };
@@ -234,7 +234,7 @@ namespace ODT_Repository.Entity
             // -- Blogs --
             var blogs = new List<Blog>
             {
-                new Blog { Id = 1 ,UserId = users[1].Id, BlogContent = "How to be a better mentor", TotalLike = 1, CreateDate = DateTime.Now, Image = "ahihi"}
+                new Blog { Id = 1 ,UserId = users[1].Id, BlogContent = "How to be a better mentor", TotalLike = 1, CreateDate = DateTime.Now, Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoVxEoMbD0PjtjJdU1S-A5jamXGaH-JgKvLw&s"}
             };
             modelBuilder.Entity<Blog>().HasData(blogs);
 
@@ -260,7 +260,7 @@ namespace ODT_Repository.Entity
                 new CommentImage
                 {
                     Id = 1,
-                    Image = "Ahihi do ngoc",
+                    Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoVxEoMbD0PjtjJdU1S-A5jamXGaH-JgKvLw&s",
                     BlogCommentId = blogComments[0].Id
                 }
 
