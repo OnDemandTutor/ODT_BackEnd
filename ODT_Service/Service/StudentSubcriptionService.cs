@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using ODT_Model.DTO.Request;
 using ODT_Model.DTO.Response;
 using ODT_Repository.Entity;
@@ -18,11 +19,13 @@ namespace ODT_Service.Service
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public StudentSubcriptionService(IMapper mapper, IUnitOfWork unitOfWork)
+        public StudentSubcriptionService(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor contextAccessor)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _contextAccessor = contextAccessor;
         }
 
         public async Task<IEnumerable<StudentSubcriptionResponse>> GetAllStudentSubcription(QueryObject queryObject)
@@ -111,15 +114,48 @@ namespace ODT_Service.Service
         public async Task<StudentSubcriptionResponse> CreateStudentSubcription(CreateStudentSubcriptionRequest studentSubcriptionRequest)
         {
             var studentsub = _mapper.Map<StudentSubcription>(studentSubcriptionRequest);
-            var student = _unitOfWork.StudentRepository.Get(s => s.UserId == studentSubcriptionRequest.UserId).FirstOrDefault();
+            var userId = long.Parse(Authentication.GetUserIdFromHttpContext(_contextAccessor.HttpContext));
+            var student = _unitOfWork.StudentRepository.Get(s => s.UserId == userId, includeProperties: "User").FirstOrDefault();
+
             if (student == null)
             {
                 throw new CustomException.DataNotFoundException("This User is not a student!!");
             }
+
+            var studentSubscription = _unitOfWork.StudentSubcriptionRepository
+                .Get(s => s.StudentId == student.Id && s.Status == true).FirstOrDefault();
+            if (studentSubscription != null)
+            {
+                throw new CustomException.InvalidDataException("This student already has a subscription!");
+            }
+
+            var wallet = _unitOfWork.WalletRepository
+                .Get(w => w.UserId == student.UserId).FirstOrDefault();
+            if (wallet == null)
+            {
+                throw new CustomException.DataNotFoundException("Wallet not found for this student!");
+            }
+
+            var subscription = _unitOfWork.SubcriptionRepository.GetByID(studentSubcriptionRequest.SubcriptionId);
+            if (subscription == null)
+            {
+                throw new CustomException.DataNotFoundException("Subscription not found!");
+            }
+
+            // Kiểm tra số dư ví
+            if (wallet.Balance < subscription.SubcriptionPrice)
+            {
+                throw new CustomException.InvalidDataException("Insufficient balance in wallet.");
+            }
+
+            // Trừ số tiền từ ví
+            wallet.Balance -= subscription.SubcriptionPrice;
+            _unitOfWork.WalletRepository.Update(wallet);
+
             // Set trạng thái (limt cứng 20, câu đầu là 0)
             if (studentsub.CurrentQuestion >= 20)
             {
-                throw new CustomException.InvalidDataException("You Subcription has been không xài được địt mẹ mày.");
+                throw new CustomException.InvalidDataException("You Subcription has reached its limit.");
             }
             else
             {
@@ -128,14 +164,19 @@ namespace ODT_Service.Service
                 studentsub.CurrentMeeting = 0;
                 studentsub.StartDate = DateTime.Now;
                 studentsub.EndDate = DateTime.Now.AddMonths(2);
-                // set hiện tại là true có thể sửa thành false nếu muốn
                 studentsub.Status = true;
 
                 await _unitOfWork.StudentSubcriptionRepository.AddAsync(studentsub);
             }
 
-            //map request vào response
+            // Lưu thay đổi
+            _unitOfWork.Save();
+
+            // Map request vào response
             StudentSubcriptionResponse studentSubcriptionResponse = _mapper.Map<StudentSubcriptionResponse>(studentsub);
+            studentSubcriptionResponse.Student = student;
+            studentSubcriptionResponse.Subcription = subscription;
+
             return studentSubcriptionResponse;
         }
 

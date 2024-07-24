@@ -181,7 +181,7 @@ public class UserService : IUserService
             await _unitOfWork.UserRepository.GetByFilterAsync(x => x.Email.Equals(updateAccountDTORequest.Email));
         if (checkEmail.Count() != 0)
         {
-            throw new InvalidDataException($"Email is exist");
+            throw new CustomException.InvalidDataException("Email is exist");
         }
         var userGender = "Order";
         switch (updateAccountDTORequest.Gender.Trim().ToLower())

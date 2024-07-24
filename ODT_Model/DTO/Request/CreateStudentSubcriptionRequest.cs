@@ -8,8 +8,6 @@ namespace ODT_Model.DTO.Request
 {
     public class CreateStudentSubcriptionRequest
     {
-        public long UserId { get; set; }
-
         public long SubcriptionId { get; set; }
     }
 }

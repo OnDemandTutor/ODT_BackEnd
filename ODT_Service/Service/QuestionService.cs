@@ -149,7 +149,7 @@ namespace ODT_Service.Service
             }
             
             studentSubscription.CurrentQuestion++;
-
+            _unitOfWork.StudentSubcriptionRepository.Update(studentSubscription);
             //save to database
             var questionWithSubscription = _mapper.Map<Question>(questionRequest);
             if (questionRequest.Image != null)
@@ -241,11 +241,18 @@ namespace ODT_Service.Service
 
         public async Task<QuestionResponse> UpdateQuestionAsync(QuestionRequest questionRequest, long questionId)
         {
-            var question = _unitOfWork.QuestionRepository.GetByID(questionId);
+            var question = _unitOfWork.QuestionRepository.Get(q => q.Id == questionId, includeProperties: "Category").First();
 
             if (question == null)
             {
                 throw new CustomException.DataNotFoundException($"Question with ID: {questionId} not found");
+            }
+
+            if (questionRequest.CategoryName != question.Category.CategoryName)
+            {
+                var category = _unitOfWork.CategoryRepository.Get(c => c.CategoryName == questionRequest.CategoryName).First();
+                question.CategoryId = category.Id;
+                _unitOfWork.QuestionRepository.SaveChangesAsync();
             }
 
             _mapper.Map(questionRequest, question);

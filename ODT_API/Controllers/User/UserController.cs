@@ -50,7 +50,7 @@ public class UserController : BaseController
         }
         catch (CustomException.InvalidDataException ex)
         {
-            return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
+            return CustomResult(ex.Message, HttpStatusCode.Conflict);
         }
         catch (Exception exception)
         {
