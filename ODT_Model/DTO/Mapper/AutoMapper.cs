@@ -148,6 +148,12 @@ namespace ODT_Model.DTO.Mapper
                 .ReverseMap();
             #endregion
 
+            #region Question Request
+            CreateMap<QuestionRequest, Question>().ReverseMap();
+            CreateMap<QuestionCommentRequest, QuestionComment>().ReverseMap();
+            CreateMap<QuestionRatingRequest, QuestionRating>().ReverseMap();
+            #endregion
+
             #region Order
             CreateMap<OrderRequest, Order>().ReverseMap();
             CreateMap<Order, OrderResponse>().ReverseMap();
