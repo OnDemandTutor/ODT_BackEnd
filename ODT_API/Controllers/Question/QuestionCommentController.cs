@@ -141,7 +141,7 @@ public class QuestionCommentController : BaseController
         try
         {
             await _questionCommentService.DeleteQuestionComment(questionId);
-            return CustomResult("Delete question successfully", HttpStatusCode.NoContent);
+            return CustomResult("Delete question successfully", HttpStatusCode.OK);
         }
         catch (CustomException.DataNotFoundException e)
         {
