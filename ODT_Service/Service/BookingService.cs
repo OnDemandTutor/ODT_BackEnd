@@ -257,7 +257,7 @@ namespace ODT_Service.Service
                 booking.EndTime = request.StartTime.Add(request.Duration);
                 booking.Status = BookingStatus.Pending.ToString();
 
-                if (request.BookingMethod == "Subcription")
+                if (request.BookingMethod == "Subscription")
                 {
                     // Logic when BookingMethod is Subcription
                     if (studentSubcription.CurrentMeeting == studentSubcription.Subcription.LimitMeeting)
@@ -404,7 +404,7 @@ namespace ODT_Service.Service
                 wallet.Balance--;
                 await _unitOfWork.WalletRepository.UpdateAsync(wallet);
             }
-            else if (booking.BookingMethod == "Subcription")
+            else if (booking.BookingMethod == "Subscription")
             {
                 if (studentSubcription.CurrentMeeting == studentSubcription.Subcription.LimitMeeting)
                 {

@@ -109,7 +109,7 @@ namespace ODT_API.Controllers.Admin
             try
             {
                 var user = await _userService.DeactivateUser(userId);
-                return CustomResult("Activate successful!", user);
+                return CustomResult("Deactivated successful!", user);
             }
             catch (CustomException.DataNotFoundException e)
             {
