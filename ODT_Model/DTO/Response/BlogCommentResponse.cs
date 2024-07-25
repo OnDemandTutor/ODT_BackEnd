@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FuStudy_Model.DTO.Response
+namespace ODT_Model.DTO.Response
 {
     public class BlogCommentResponse
     {

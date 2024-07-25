@@ -19,7 +19,7 @@ namespace ODT_API.Controllers.Subcription
             _subcriptionService = subcriptionService;
         }
 
-        [HttpGet()]
+        [HttpGet("GetAllSubcriptions")]
         public async Task<IActionResult> GetAllSubcriptions([FromQuery] QueryObject queryObject)
         {
             try
@@ -32,7 +32,7 @@ namespace ODT_API.Controllers.Subcription
                 return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
             }
         }
-        [HttpGet("{id}")]
+        [HttpGet("GetSubCriptionById/{id}")]
         public async Task<IActionResult> GetSubCriptionById(long id)
         {
             try
@@ -50,7 +50,7 @@ namespace ODT_API.Controllers.Subcription
             }
         }
 
-        [HttpPost]
+        [HttpPost("CreateSubcription")]
         public async Task<IActionResult> CreateSubcription([FromBody] CreateSubcriptionRequest subcriptionRequest)
         {
             try
@@ -64,7 +64,7 @@ namespace ODT_API.Controllers.Subcription
             }
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("UpdateSubcription/{id}")]
         public async Task<IActionResult> UpdateSubcription(long id, [FromBody] UpdateSubcriptionRequest updateSubcriptionRequest)
         {
             try
@@ -78,7 +78,7 @@ namespace ODT_API.Controllers.Subcription
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteSubcription/{id}")]
         public async Task<IActionResult> DeleteSubcription(long id)
         {
             try

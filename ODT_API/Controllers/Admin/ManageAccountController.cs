@@ -3,11 +3,10 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using CoreApiResponse;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using ODT_Model.DTO.Request;
 using ODT_Repository.Entity;
 using ODT_Service.Interface;
+using Microsoft.AspNetCore.Mvc;
 using Tools;
 
 namespace ODT_API.Controllers.Admin
@@ -26,25 +25,24 @@ namespace ODT_API.Controllers.Admin
         {
             try
             {
-                User user= await _userService.UpdateUser(id, updateUserDTORequest);
-                return CustomResult("Update Success",user, HttpStatusCode.OK);
+                User user = await _userService.UpdateUser(id, updateUserDTORequest);
+                return CustomResult("Update Success", user, HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
                 return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
             }
         }
-        [HttpPost("CreateUser")]
+        [HttpPost("CreateUserForAdmin")]
         public async Task<IActionResult> CreateUser([FromBody] CreateAccountDTORequest createAccountDTORequest)
         {
             try
             {
                 User user = await _userService.CreateUser(createAccountDTORequest);
-                return CustomResult("Create User Success",user, HttpStatusCode.OK);
+                return CustomResult("Create User Success", user, HttpStatusCode.OK);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
             }
         }
@@ -72,21 +70,77 @@ namespace ODT_API.Controllers.Admin
         }
 
         [HttpGet("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers([FromQuery]QueryObject queryObject)
+        public async Task<IActionResult> GetAllUsers([FromQuery] QueryObject queryObject)
         {
             try
             {
                 var users = await _userService.GetAllUsers(queryObject);
-            
+
                 return CustomResult("Get All users successful", users);
             }
             catch (Exception exception)
             {
                 return CustomResult(exception.Message, HttpStatusCode.InternalServerError);
             }
-           
+
         }
 
+        [HttpPatch("ActivateUser/{userId}")]
+        public async Task<IActionResult> ActivateUser(long userId)
+        {
+            try
+            {
+                var user = await _userService.ActivateUser(userId);
+                return CustomResult("Activate successful!", user);
+            }
+            catch (CustomException.DataNotFoundException e)
+            {
+                return CustomResult(e.Message, HttpStatusCode.NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return CustomResult(exception.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+        [HttpPatch("Deactivate/{userId}")]
+        public async Task<IActionResult> DeactivateUser(long userId)
+        {
+            try
+            {
+                var user = await _userService.DeactivateUser(userId);
+                return CustomResult("Activate successful!", user);
+            }
+            catch (CustomException.DataNotFoundException e)
+            {
+                return CustomResult(e.Message, HttpStatusCode.NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return CustomResult(exception.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("NumberOfUsers")]
+        public async Task<IActionResult> NumberOfUsers()
+        {
+            try
+            {
+                var count = await _userService.GetNumberOfUser();
+                return CustomResult("Activate successful!", count);
+
+            }
+            catch (CustomException.DataNotFoundException e)
+            {
+                return CustomResult(e.Message, HttpStatusCode.NotFound);
+
+            }
+            catch (Exception exception)
+            {
+                return CustomResult(exception.Message, HttpStatusCode.InternalServerError);
+            }
+        }
 
     }
 }

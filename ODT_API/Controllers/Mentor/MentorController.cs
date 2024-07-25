@@ -20,6 +20,24 @@ namespace ODT_API.Controllers.Mentor
             _mentorService = mentorService;
         }
 
+        [HttpGet("GetAllMentor")]
+        public async Task<IActionResult> GetAllMentor([FromQuery] QueryObject queryPbject)
+        {
+            try
+            {
+                var mentors = await _mentorService.GetAllMentor(queryPbject);
+                return CustomResult("Data Load Successfully", mentors);
+            }
+            catch (CustomException.DataNotFoundException ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.NotFound);
+            }
+            catch (Exception ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
         [HttpGet("GetAllMentorVerify")]
         public IActionResult GetAllMentorVerify([FromQuery] QueryObject queryPbject)
         {
@@ -39,7 +57,7 @@ namespace ODT_API.Controllers.Mentor
         }
 
         [HttpGet("GetAllMentorWaiting")]
-        public IActionResult GetAllMentor([FromQuery] QueryObject queryPbject)
+        public IActionResult GetAllMentorWaiting([FromQuery] QueryObject queryPbject)
         {
             try
             {
@@ -62,6 +80,25 @@ namespace ODT_API.Controllers.Mentor
             try
             {
                 var mentor = await _mentorService.GetMentorById(id);
+
+                return CustomResult("Data Load Successfully", mentor);
+            }
+            catch (CustomException.DataNotFoundException ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.NotFound);
+            }
+            catch (Exception ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("GetMentorByUserId/{id}")]
+        public async Task<IActionResult> GetMentorByUserId(long id)
+        {
+            try
+            {
+                var mentor = await _mentorService.GetMentorByUserId(id);
 
                 return CustomResult("Data Load Successfully", mentor);
             }
@@ -123,7 +160,33 @@ namespace ODT_API.Controllers.Mentor
             }
 
         }
-        
+
+        [HttpPatch("VerifyMentor/{id}")]
+        public async Task<IActionResult> VerifyMentor(long id)
+        {
+            try
+            {
+                MentorResponse mentorResponse = await _mentorService.VerifyMentor(id);
+                return CustomResult("Update Successfully", mentorResponse, HttpStatusCode.OK);
+            }
+            catch (CustomException.DataNotFoundException ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.NotFound);
+            }
+            catch (CustomException.InvalidDataException ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.Conflict);
+            }
+            catch (CustomException.UnauthorizedAccessException ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.Unauthorized);
+            }
+            catch (Exception ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
         [HttpPatch("UpdateMentorLoggingIn")]
         [Authorize]
         public async Task<IActionResult> UpdateMentorLoggingIn([FromBody] MentorRequest mentorRequest)

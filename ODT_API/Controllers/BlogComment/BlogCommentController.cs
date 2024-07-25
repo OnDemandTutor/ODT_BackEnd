@@ -1,5 +1,5 @@
 ﻿using CoreApiResponse;
-using FuStudy_Model.DTO.Request;
+using ODT_Model.DTO.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ODT_Service.Interface;

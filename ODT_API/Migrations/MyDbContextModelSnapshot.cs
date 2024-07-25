@@ -94,8 +94,8 @@ namespace ODT_API.Migrations
                         {
                             Id = 1L,
                             BlogContent = "How to be a better mentor",
-                            CreateDate = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3421),
-                            Image = "ahihi",
+                            CreateDate = new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(76),
+                            Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoVxEoMbD0PjtjJdU1S-A5jamXGaH-JgKvLw&s",
                             TotalLike = 1,
                             UserId = 2L
                         });
@@ -142,7 +142,7 @@ namespace ODT_API.Migrations
                             Id = 1L,
                             BlogId = 1L,
                             Comment = "Great post!",
-                            CreateDate = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3458),
+                            CreateDate = new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(109),
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = false,
                             UserId = 1L
@@ -191,6 +191,13 @@ namespace ODT_API.Migrations
                         .HasColumnType("bigint");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("BookingMethod")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time(6)");
@@ -283,7 +290,7 @@ namespace ODT_API.Migrations
                         {
                             Id = 1L,
                             BlogCommentId = 1L,
-                            Image = "Ahihi do ngoc",
+                            Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoVxEoMbD0PjtjJdU1S-A5jamXGaH-JgKvLw&s",
                             Status = false
                         });
                 });
@@ -330,7 +337,7 @@ namespace ODT_API.Migrations
                         new
                         {
                             Id = 1L,
-                            CreateAt = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3667),
+                            CreateAt = new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(262),
                             Duration = new TimeSpan(0, 0, 0, 0, 0),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsClose = false,
@@ -384,7 +391,7 @@ namespace ODT_API.Migrations
                             Id = 1L,
                             Content = "Hello!",
                             ConversationId = 1L,
-                            CreateTime = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3701),
+                            CreateTime = new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(284),
                             DeleteAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDelete = false,
                             IsSeen = false,
@@ -475,19 +482,21 @@ namespace ODT_API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Skill")
+                    b.Property<string>("OnlineStatus")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("Skill")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("VerifyStatus")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Video")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("WorkPlace")
@@ -505,9 +514,10 @@ namespace ODT_API.Migrations
                         {
                             Id = 1L,
                             AcademicLevel = "Master's",
+                            OnlineStatus = "Invisible",
                             Skill = "Ahihi",
-                            Status = "offline",
                             UserId = 3L,
+                            VerifyStatus = true,
                             Video = "ahihi",
                             WorkPlace = "Tech Company"
                         });
@@ -578,7 +588,7 @@ namespace ODT_API.Migrations
                         {
                             Id = 1L,
                             ConversationMessageId = 1L,
-                            CreateAt = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3746),
+                            CreateAt = new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(335),
                             ReactionType = "like",
                             UserId = 2L
                         });
@@ -622,7 +632,7 @@ namespace ODT_API.Migrations
                         new
                         {
                             Id = 1L,
-                            CreateDate = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3401),
+                            CreateDate = new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(63),
                             Description = "Payment for Basic subscription",
                             Money = 9.9900000000000002,
                             PaymentCode = "PAY12345",
@@ -718,8 +728,8 @@ namespace ODT_API.Migrations
                             Id = 1L,
                             CategoryId = 1L,
                             Content = "How to sort an array in C#?",
-                            CreateDate = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3041),
-                            Image = "ahihi",
+                            CreateDate = new DateTime(2024, 7, 25, 2, 14, 42, 816, DateTimeKind.Local).AddTicks(9777),
+                            Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoVxEoMbD0PjtjJdU1S-A5jamXGaH-JgKvLw&s",
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Status = false,
                             StudentId = 1L,
@@ -767,7 +777,7 @@ namespace ODT_API.Migrations
                         {
                             Id = 1L,
                             Content = "Good question!",
-                            CreateDate = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3616),
+                            CreateDate = new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(201),
                             ModifiedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             QuestionId = 1L,
                             Status = false,
@@ -958,10 +968,10 @@ namespace ODT_API.Migrations
                         new
                         {
                             Id = 1L,
-                            CurrentMeeting = 1,
+                            CurrentMeeting = 0,
                             CurrentQuestion = 0,
-                            EndDate = new DateTime(2024, 7, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3174),
-                            StartDate = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3172),
+                            EndDate = new DateTime(2024, 8, 25, 2, 14, 42, 816, DateTimeKind.Local).AddTicks(9878),
+                            StartDate = new DateTime(2024, 7, 25, 2, 14, 42, 816, DateTimeKind.Local).AddTicks(9877),
                             Status = true,
                             StudentId = 1L,
                             SubcriptionId = 1L
@@ -1000,8 +1010,8 @@ namespace ODT_API.Migrations
                         new
                         {
                             Id = 1L,
-                            LimitMeeting = 0,
-                            LimitQuestion = 0,
+                            LimitMeeting = 20,
+                            LimitQuestion = 20,
                             Status = true,
                             SubcriptionName = "Basic",
                             SubcriptionPrice = 9.9900000000000002
@@ -1009,12 +1019,43 @@ namespace ODT_API.Migrations
                         new
                         {
                             Id = 2L,
-                            LimitMeeting = 0,
-                            LimitQuestion = 0,
+                            LimitMeeting = 20,
+                            LimitQuestion = 20,
                             Status = true,
                             SubcriptionName = "Premium",
-                            SubcriptionPrice = 19.989999999999998
+                            SubcriptionPrice = 9.9900000000000002
                         });
+                });
+
+            modelBuilder.Entity("ODT_Repository.Entity.Token", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("IsExpired")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Revoked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("TokenValue")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Token");
                 });
 
             modelBuilder.Entity("ODT_Repository.Entity.Transaction", b =>
@@ -1053,7 +1094,7 @@ namespace ODT_API.Migrations
                         {
                             Id = 1L,
                             Ammount = 9.9900000000000002,
-                            CreateTime = new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3330),
+                            CreateTime = new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(6),
                             Description = "Subscription payment",
                             Type = "Deposit",
                             WalletId = 1L
@@ -1069,13 +1110,12 @@ namespace ODT_API.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Avatar")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("Dob")
+                    b.Property<DateTime?>("Dob")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
@@ -1083,7 +1123,6 @@ namespace ODT_API.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Fullname")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Gender")
@@ -1091,7 +1130,6 @@ namespace ODT_API.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("IdentityCard")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Password")
@@ -1099,7 +1137,6 @@ namespace ODT_API.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<long>("RoleId")
@@ -1122,9 +1159,8 @@ namespace ODT_API.Migrations
                         new
                         {
                             Id = 1L,
-                            Avatar = "ahihi",
+                            Avatar = "",
                             CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "johndoe@example.com",
                             Fullname = "John Doe",
                             Gender = "male",
@@ -1138,9 +1174,8 @@ namespace ODT_API.Migrations
                         new
                         {
                             Id = 2L,
-                            Avatar = "ahihi",
+                            Avatar = "",
                             CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "janesmith@example.com",
                             Fullname = "Jane Smith",
                             Gender = "Gay",
@@ -1154,9 +1189,8 @@ namespace ODT_API.Migrations
                         new
                         {
                             Id = 3L,
-                            Avatar = "ahihi",
+                            Avatar = "",
                             CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Dob = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "alicejohnson@example.com",
                             Fullname = "Alice Johnson",
                             Gender = "Female",
@@ -1520,6 +1554,17 @@ namespace ODT_API.Migrations
                     b.Navigation("Student");
 
                     b.Navigation("Subcription");
+                });
+
+            modelBuilder.Entity("ODT_Repository.Entity.Token", b =>
+                {
+                    b.HasOne("ODT_Repository.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ODT_Repository.Entity.Transaction", b =>

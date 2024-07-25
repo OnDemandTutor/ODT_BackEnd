@@ -186,7 +186,7 @@ namespace ODT_API.Controllers.Question
             try
             {
                 await _questionService.DeleteQuestionAsync(questionId);
-                return CustomResult("Delete question successfully", HttpStatusCode.NoContent);
+                return CustomResult("Delete question successfully", HttpStatusCode.OK);
             }
             catch (CustomException.DataNotFoundException e)
             {

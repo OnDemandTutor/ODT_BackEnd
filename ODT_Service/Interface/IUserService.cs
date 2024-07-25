@@ -14,4 +14,17 @@ public interface IUserService
     Task<User> GetUserById(long id);
     Task<User> UpdateUser(long id, UpdateAccountDTORequest updateAccountDTORequest);
     string GetUserID();
+    Task<UserDTOResponse> GetLoginUser();
+
+    Task<UserDTOResponse> UpdateLoginUser(UpdateAccountDTORequest updateAccountDTORequest);
+
+    Task<UserDTOResponse> UpdateLoginUserAvatar(ImageRequest imageRequest);
+
+    Task<UserDTOResponse> ActivateUser(long id);
+
+    Task<UserDTOResponse> DeactivateUser(long id);
+
+    Task<UserCountResponse> GetNumberOfUser();
+
+
 }

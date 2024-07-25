@@ -13,6 +13,7 @@ namespace ODT_Service.Interface
     {
         Task<IEnumerable<MentorMajorResponse>> GetAllMentorMajor(QueryObject queryObject);
         Task<List<MentorMajorResponse>> GetAllMajorByMentorId(long id);
+        Task<List<MentorMajorResponse>> GetAllMentorMajorByMentorId(long id);
         Task<List<MentorMajorResponse>> GetAllMentorByMajorId(long id);
         Task<List<MentorMajorResponse>> GetMentorMajorById(long id);
         Task<MentorMajorResponse> CreateMentorMajor(MentorMajorRequest mentorMajorRequest);

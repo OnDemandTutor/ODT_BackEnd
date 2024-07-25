@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using FuStudy_Model.DTO.Request;
-using FuStudy_Model.DTO.Response;
+using ODT_Model.DTO.Request;
+using ODT_Model.DTO.Response;
 using ODT_Model.DTO.Request;
 using ODT_Model.DTO.Response;
 using ODT_Repository.Entity;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ODT_Model.DTO.Response;
 
 namespace ODT_Model.DTO.Mapper
 {
@@ -25,7 +26,7 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<Mentor, RegisterTutorRequest>().ReverseMap();
             CreateMap<Mentor, RegisterTutorResponse>().ReverseMap();
             CreateMap<Token, TokenRequest>().ReverseMap();
-
+            CreateMap<RegisterRequest, User>().ReverseMap();
             /*#region Account(Create, Update) RQ, Response
             CreateMap<CreateAccountDTORequest, User>().ReverseMap();
             CreateMap<UpdateAccountDTORequest, User>().ReverseMap();
@@ -49,6 +50,11 @@ namespace ODT_Model.DTO.Mapper
             #region Role
             CreateMap<RoleRequest, Role>().ReverseMap();
             CreateMap<Role, RoleResponse>().ReverseMap();
+            #endregion
+
+            #region Category
+            CreateMap<CategoryRequest, Category>().ReverseMap();
+            CreateMap<Category, CategoryResponse>().ReverseMap();
             #endregion
 
             #region Permission
@@ -101,6 +107,11 @@ namespace ODT_Model.DTO.Mapper
             CreateMap<StudentSubcriptionResponse, StudentSubcription>().ReverseMap();
             #endregion
 
+            #region MeetingHistory
+
+            CreateMap<MeetingHistory, MeetingHistoryResponse>().ReverseMap();
+            #endregion
+
             #region Blog
             CreateMap<BlogRequest, Blog>();
             CreateMap<Blog, BlogResponse>()
@@ -135,6 +146,12 @@ namespace ODT_Model.DTO.Mapper
                 .ReverseMap();
             CreateMap<QuestionRating, QuestionRatingResponse>()
                 .ReverseMap();
+            #endregion
+
+            #region Question Request
+            CreateMap<QuestionRequest, Question>().ReverseMap();
+            CreateMap<QuestionCommentRequest, QuestionComment>().ReverseMap();
+            CreateMap<QuestionRatingRequest, QuestionRating>().ReverseMap();
             #endregion
 
             #region Order

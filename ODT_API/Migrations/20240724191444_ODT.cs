@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ODT_API.Migrations
 {
     /// <inheritdoc />
-    public partial class Dante : Migration
+    public partial class ODT : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -134,18 +134,18 @@ namespace ODT_API.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Fullname = table.Column<string>(type: "longtext", nullable: false)
+                    Fullname = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Email = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IdentityCard = table.Column<string>(type: "longtext", nullable: false)
+                    IdentityCard = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Gender = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Avatar = table.Column<string>(type: "longtext", nullable: false)
+                    Avatar = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Dob = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Phone = table.Column<string>(type: "longtext", nullable: false)
+                    Dob = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    Phone = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CreateDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<bool>(type: "tinyint(1)", nullable: false)
@@ -232,12 +232,13 @@ namespace ODT_API.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     WorkPlace = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Status = table.Column<string>(type: "longtext", nullable: false)
+                    OnlineStatus = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Skill = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Video = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    Video = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    VerifyStatus = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -264,6 +265,31 @@ namespace ODT_API.Migrations
                     table.PrimaryKey("PK_Student", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Student_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Token",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    TokenValue = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Time = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Revoked = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsExpired = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Token", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Token_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
@@ -394,6 +420,9 @@ namespace ODT_API.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<long>(type: "bigint", nullable: false),
                     MentorId = table.Column<long>(type: "bigint", nullable: false),
+                    BookingMethod = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreateAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Duration = table.Column<TimeSpan>(type: "time(6)", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -786,8 +815,8 @@ namespace ODT_API.Migrations
                 columns: new[] { "Id", "LimitMeeting", "LimitQuestion", "Status", "SubcriptionName", "SubcriptionPrice" },
                 values: new object[,]
                 {
-                    { 1L, 0, 0, true, "Basic", 9.9900000000000002 },
-                    { 2L, 0, 0, true, "Premium", 19.989999999999998 }
+                    { 1L, 20, 20, true, "Basic", 9.9900000000000002 },
+                    { 2L, 20, 20, true, "Premium", 9.9900000000000002 }
                 });
 
             migrationBuilder.InsertData(
@@ -805,25 +834,25 @@ namespace ODT_API.Migrations
                 columns: new[] { "Id", "Avatar", "CreateDate", "Dob", "Email", "Fullname", "Gender", "IdentityCard", "Password", "Phone", "RoleId", "Status", "Username" },
                 values: new object[,]
                 {
-                    { 1L, "ahihi", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "johndoe@example.com", "John Doe", "male", "ahihi", "hashedPassword1", "123123", 3L, true, "student1" },
-                    { 2L, "ahihi", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "janesmith@example.com", "Jane Smith", "Gay", "Ahihi", "hashedPassword2", "12312321", 4L, true, "mentor1" },
-                    { 3L, "ahihi", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "alicejohnson@example.com", "Alice Johnson", "Female", "Ahihi", "hashedPassword3", "123123", 1L, true, "admin1" }
+                    { 1L, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "johndoe@example.com", "John Doe", "male", "ahihi", "hashedPassword1", "123123", 3L, true, "student1" },
+                    { 2L, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "janesmith@example.com", "Jane Smith", "Gay", "Ahihi", "hashedPassword2", "12312321", 4L, true, "mentor1" },
+                    { 3L, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "alicejohnson@example.com", "Alice Johnson", "Female", "Ahihi", "hashedPassword3", "123123", 1L, true, "admin1" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Blog",
                 columns: new[] { "Id", "BlogContent", "CreateDate", "Image", "TotalLike", "UserId" },
-                values: new object[] { 1L, "How to be a better mentor", new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3421), "ahihi", 1, 2L });
+                values: new object[] { 1L, "How to be a better mentor", new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(76), "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoVxEoMbD0PjtjJdU1S-A5jamXGaH-JgKvLw&s", 1, 2L });
 
             migrationBuilder.InsertData(
                 table: "Conversation",
                 columns: new[] { "Id", "CreateAt", "Duration", "EndTime", "IsClose", "LastMessage", "User1Id", "User2Id" },
-                values: new object[] { 1L, new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3667), new TimeSpan(0, 0, 0, 0, 0), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Hello!", 1L, 2L });
+                values: new object[] { 1L, new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(262), new TimeSpan(0, 0, 0, 0, 0), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, "Hello!", 1L, 2L });
 
             migrationBuilder.InsertData(
                 table: "Mentor",
-                columns: new[] { "Id", "AcademicLevel", "Skill", "Status", "UserId", "Video", "WorkPlace" },
-                values: new object[] { 1L, "Master's", "Ahihi", "offline", 3L, "ahihi", "Tech Company" });
+                columns: new[] { "Id", "AcademicLevel", "OnlineStatus", "Skill", "UserId", "VerifyStatus", "Video", "WorkPlace" },
+                values: new object[] { 1L, "Master's", "Invisible", "Ahihi", 3L, true, "ahihi", "Tech Company" });
 
             migrationBuilder.InsertData(
                 table: "Student",
@@ -842,7 +871,7 @@ namespace ODT_API.Migrations
             migrationBuilder.InsertData(
                 table: "BlogComment",
                 columns: new[] { "Id", "BlogId", "Comment", "CreateDate", "ModifiedDate", "Status", "UserId" },
-                values: new object[] { 1L, 1L, "Great post!", new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3458), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 1L });
+                values: new object[] { 1L, 1L, "Great post!", new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(109), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 1L });
 
             migrationBuilder.InsertData(
                 table: "BlogLike",
@@ -852,7 +881,7 @@ namespace ODT_API.Migrations
             migrationBuilder.InsertData(
                 table: "ConversationMessage",
                 columns: new[] { "Id", "Content", "ConversationId", "CreateTime", "DeleteAt", "IsDelete", "IsSeen", "SenderId" },
-                values: new object[] { 1L, "Hello!", 1L, new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3701), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, false, 1L });
+                values: new object[] { 1L, "Hello!", 1L, new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(284), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, false, 1L });
 
             migrationBuilder.InsertData(
                 table: "MentorMajor",
@@ -862,37 +891,37 @@ namespace ODT_API.Migrations
             migrationBuilder.InsertData(
                 table: "Question",
                 columns: new[] { "Id", "CategoryId", "Content", "CreateDate", "Image", "ModifiedDate", "Status", "StudentId", "TotalRating" },
-                values: new object[] { 1L, 1L, "How to sort an array in C#?", new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3041), "ahihi", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 1L, 1 });
+                values: new object[] { 1L, 1L, "How to sort an array in C#?", new DateTime(2024, 7, 25, 2, 14, 42, 816, DateTimeKind.Local).AddTicks(9777), "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoVxEoMbD0PjtjJdU1S-A5jamXGaH-JgKvLw&s", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 1L, 1 });
 
             migrationBuilder.InsertData(
                 table: "StudentSubcription",
                 columns: new[] { "Id", "CurrentMeeting", "CurrentQuestion", "EndDate", "StartDate", "Status", "StudentId", "SubcriptionId" },
-                values: new object[] { 1L, 1, 0, new DateTime(2024, 7, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3174), new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3172), true, 1L, 1L });
+                values: new object[] { 1L, 0, 0, new DateTime(2024, 8, 25, 2, 14, 42, 816, DateTimeKind.Local).AddTicks(9878), new DateTime(2024, 7, 25, 2, 14, 42, 816, DateTimeKind.Local).AddTicks(9877), true, 1L, 1L });
 
             migrationBuilder.InsertData(
                 table: "Transaction",
                 columns: new[] { "Id", "Ammount", "CreateTime", "Description", "Type", "WalletId" },
-                values: new object[] { 1L, 9.9900000000000002, new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3330), "Subscription payment", "Deposit", 1L });
+                values: new object[] { 1L, 9.9900000000000002, new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(6), "Subscription payment", "Deposit", 1L });
 
             migrationBuilder.InsertData(
                 table: "CommentImage",
                 columns: new[] { "Id", "BlogCommentId", "Image", "Status" },
-                values: new object[] { 1L, 1L, "Ahihi do ngoc", false });
+                values: new object[] { 1L, 1L, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoVxEoMbD0PjtjJdU1S-A5jamXGaH-JgKvLw&s", false });
 
             migrationBuilder.InsertData(
                 table: "MessageReaction",
                 columns: new[] { "Id", "ConversationMessageId", "CreateAt", "ReactionType", "UserId" },
-                values: new object[] { 1L, 1L, new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3746), "like", 2L });
+                values: new object[] { 1L, 1L, new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(335), "like", 2L });
 
             migrationBuilder.InsertData(
                 table: "Order",
                 columns: new[] { "Id", "CreateDate", "Description", "Money", "PaymentCode", "Status", "TransactionId" },
-                values: new object[] { 1L, new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3401), "Payment for Basic subscription", 9.9900000000000002, "PAY12345", true, 1L });
+                values: new object[] { 1L, new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(63), "Payment for Basic subscription", 9.9900000000000002, "PAY12345", true, 1L });
 
             migrationBuilder.InsertData(
                 table: "QuestionComment",
                 columns: new[] { "Id", "Content", "CreateDate", "ModifiedDate", "QuestionId", "Status", "UserId" },
-                values: new object[] { 1L, "Good question!", new DateTime(2024, 6, 17, 2, 1, 45, 691, DateTimeKind.Local).AddTicks(3616), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1L, false, 2L });
+                values: new object[] { 1L, "Good question!", new DateTime(2024, 7, 25, 2, 14, 42, 817, DateTimeKind.Local).AddTicks(201), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1L, false, 2L });
 
             migrationBuilder.InsertData(
                 table: "QuestionRating",
@@ -1060,6 +1089,11 @@ namespace ODT_API.Migrations
                 column: "SubcriptionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Token_UserId",
+                table: "Token",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transaction_WalletId",
                 table: "Transaction",
                 column: "WalletId");
@@ -1113,6 +1147,9 @@ namespace ODT_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "StudentSubcription");
+
+            migrationBuilder.DropTable(
+                name: "Token");
 
             migrationBuilder.DropTable(
                 name: "BlogComment");

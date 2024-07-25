@@ -11,10 +11,17 @@ using ODT_Service.Service;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using ODT_Service.Interfaces;
-using FuStudy_Service;
+using ODT_Service;
 using ODT_Repository;
 using Quartz;
 using Tools.Quartz;
+using Net.payOS;
+using ODT_Repository.Service;
+
+IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+PayOS payOS = new PayOS(configuration["Environment:PAYOS_CLIENT_ID"],
+    configuration["Environment:PAYOS_API_KEY"],
+    configuration["Environment:PAYOS_CHECKSUM_KEY"]);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,11 +91,14 @@ builder.Services.AddScoped<IMessageReactionService, MessageReactionService>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IMeetingHistory, MeetingHistoryService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 //builder.Services.AddScoped<IBlogService, BlogService>();
 //builder.Services.AddScoped<IBlogLikeService, BlogLikeService>();
 //builder.Services.AddScoped<IConversationService, ConversationService>();
 
 builder.Services.AddScoped<Tools.Firebase>();
+builder.Services.AddSingleton(payOS);
 
 
 //builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();

@@ -51,6 +51,25 @@ namespace ODT_API.Controllers.Transaction
             return CustomResult("Data loaded!", transaction);
         }
 
+        [HttpGet("GetAllTransactionByWalletId/{walledId}")]
+        public async Task<IActionResult> GetAllTransactionByWalletId(long walledId, [FromQuery] QueryObject queryObject)
+        {
+            try
+            {
+                var transactions = await _transactionService.GetAllTransactionByWalletIdAsync(walledId, queryObject);
+                return CustomResult("Data loaded!", transactions);
+
+            }
+            catch (CustomException.DataNotFoundException e)
+            {
+                return CustomResult(e.Message, HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return CustomResult(exception.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
         [HttpPost("CreateTransaction")]
         public async Task<IActionResult> CreateTransaction([FromBody] TransactionRequest transactionRequest)
         {
@@ -104,6 +123,41 @@ namespace ODT_API.Controllers.Transaction
             {
                 await _transactionService.DeleteTransactionAsync(transactionId);
                 return CustomResult("Deleted successfully", HttpStatusCode.OK);
+            }
+            catch (CustomException.DataNotFoundException e)
+            {
+                return CustomResult(e.Message, HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return CustomResult(exception.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("GetTotalRevenueFromDeposit")]
+        public async Task<IActionResult> GetTotalRevenueFromDeposit()
+        {
+            try
+            {
+                var total = await _transactionService.GetTotalRevenue();
+                return CustomResult("Data loaded!", total);
+            }
+            catch (CustomException.DataNotFoundException e)
+            {
+                return CustomResult(e.Message, HttpStatusCode.NotFound);
+            }
+            catch (Exception exception)
+            {
+                return CustomResult(exception.Message, HttpStatusCode.InternalServerError);
+            }
+        }
+        [HttpGet("GetTransactionsByDateRange")]
+        public async Task<IActionResult> GetTransactionsByDateRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+        {
+            try
+            {
+                var transactions = await _transactionService.GetTransactionsByDateRange(startDate, endDate);
+                return CustomResult("Data loaded!", transactions);
             }
             catch (CustomException.DataNotFoundException e)
             {
